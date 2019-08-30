@@ -56,6 +56,8 @@ done
 
 # Copier les fichiers/dossiers de /homepi/ dans /home/pi
 cp -Rfv ./pi /home
+chown -R pi:pi /home/pi
+
 
 # Installation et configuration de supervisor
 apt install supervisor -y
