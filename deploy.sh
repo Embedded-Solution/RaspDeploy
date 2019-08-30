@@ -30,11 +30,11 @@ apt update
 apt upgrade -y
 
 # Suppression des paquets inutiles
-apt remove geany geany-common
+apt remove geany geany-common -y
 
 # Installation de anydesk
 if ! dpkg -s anydesk >/dev/null 2>&1; then
-    apt install libpango1.0-0
+    apt install libpango1.0-0 libegl1-mesa -y
     wget https://download.anydesk.com/rpi/anydesk_5.1.1-1_armhf.deb
     dpkg -i anydesk_5.1.1-1_armhf.deb
     rm anydesk_5.1.1-1_armhf.deb
