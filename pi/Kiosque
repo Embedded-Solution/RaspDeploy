@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Kiosk
+Comment=Lancer le kiosk
+Exec=mv /home/pi/.config/lxsession/LXDE-pi/autostart{.old,} && sudo service lightdm restart
+
+Icon=/home/pi/images/k-icon.png
+Terminal=false
+Categories=Application
+
