@@ -54,6 +54,10 @@ for f in ./chromium/plugins/*.json; do
     cp $f  /etc/chromium-browser/policies/managed
 done
 
+
+# Installation de l'extension TotemHome
+#cp ./ExtensionsIo/boonncnoiobakmnakbmefocmcgibnjld.json /usr/share/chromium-browser/
+
 # Copier les fichiers/dossiers de /homepi/ dans /home/pi
 cp -Rfv ./pi /home
 chown -R pi:pi /home/pi
@@ -65,6 +69,9 @@ for f in ./supervisor/*.conf; do
     echo 'Copie de ' $f ' dans /etc/supervisor/conf.d'
     cp $f  /etc/supervisor/conf.d/
 done
+
+# Installation de Iomanage
+cp -f ./iomanage/iomanage.py /usr/local/sbin/
 
 # Installer Flaskinterface
 apt install python3-flask python3-flask-sqlalchemy -y
@@ -89,3 +96,5 @@ apt autoclean
 
 # Fermeture et nettoyage des fichiers de déploiement
 cd ~/
+
+# Reboot
