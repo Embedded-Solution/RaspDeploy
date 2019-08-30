@@ -41,11 +41,7 @@ if ! dpkg -s anydesk >/dev/null 2>&1; then
 fi
 
 # Installation des jeux
-apt install scummvm steamlink -y
-
-# Installation de Kodi
-apt install kodi -y
-
+apt install scummvm
 
 # Installation des plugins Chromium
 for f in ./chromium/plugins/*.json; do
@@ -72,6 +68,7 @@ done
 
 # Installation de Iomanage
 cp -f ./iomanage/iomanage.py /usr/local/sbin/
+cp -f ./iomanage/logmanage.py /usr/local/sbin/
 
 # Installer Flaskinterface
 apt install python3-flask python3-flask-sqlalchemy -y
