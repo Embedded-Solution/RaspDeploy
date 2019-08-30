@@ -75,9 +75,12 @@ chown -R pi:pi /opt/flaskinterface
 
 # Modification du look du bureau
 cp -Rfv ./raspberrypi-artwork /usr/share
+cp -fv ./divers/temple.jpg /usr/share/rpd-wallpaper/temple.jpg
+### à faire: changer framboise ###########################
 
-# Copier les fichiers de boot
+# Copier les fichiers de boot et de splash
 cp -Rfv ./boot /
+cp -fv ./divers/splash.png /usr/share/plymouth/themes/pix/splash.png
 
 
 # Nettoyer le cache apt
