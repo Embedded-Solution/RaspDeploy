@@ -76,6 +76,10 @@ chown -R pi:pi /opt/flaskinterface
 # Modification du look du bureau
 cp -Rfv ./raspberrypi-artwork /usr/share
 
+# Copier les fichiers de boot
+cp -Rfv ./boot /
+
+
 # Nettoyer le cache apt
 apt autoremove -y
 apt autoclean
