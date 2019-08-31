@@ -46,6 +46,10 @@ apt install scummvm
 #enlever la souris de l'écran
 apt install unclutter
 
+#installer un clavier
+apt install matchbox
+
+
 # Installation des plugins Chromium
 for f in ./chromium/plugins/*.json; do
     # do some stuff here with "$f"
