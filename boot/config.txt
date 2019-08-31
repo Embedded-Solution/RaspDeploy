@@ -52,7 +52,6 @@ gpu_mem=300
 #EASYDKtouch
 #arm_freq=800
 #gpu_mem=400
-#display_rotate=2 #180degres
 #lcd_rotate=2 
 
 
