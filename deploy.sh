@@ -49,6 +49,10 @@ apt install unclutter
 #installer un clavier
 apt install matchbox
 
+#installtion de libwidevine binary and extract
+cd /usr/lib/chromium-browser
+wget http://blog.vpetkov.net/wp-content/uploads/2019/08/libwidevinecdm.so_.zip
+unzip libwidevinecdm.so_.zip && chmod 755 libwidevinecdm.so
 
 # Installation des plugins Chromium
 for f in ./chromium/plugins/*.json; do
