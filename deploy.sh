@@ -52,7 +52,8 @@ done
 
 
 # Installation de l'extension TotemHome
-#cp ./ExtensionsIo/boonncnoiobakmnakbmefocmcgibnjld.json /usr/share/chromium-browser/
+mkdir /usr/share/chromium-browser
+cp -f ./chromium/boonncnoiobakmnakbmefocmcgibnjld.json /usr/share/chromium-browser/
 
 # Copier les fichiers/dossiers de /homepi/ dans /home/pi
 cp -Rfv ./pi /home
