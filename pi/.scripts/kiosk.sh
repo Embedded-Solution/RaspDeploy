@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Modification du fichier autostart
 cp .config/lxsession/LXDE-pi/autostart{.defaut,}

@@ -1,5 +1,0 @@
-@xset s off
-@xset -dpms
-@xset s noblank
-
-@chromium-browser -noerrdialogs --load-extension=~/.config/chromium/ExtensionsIo/totemhome -kiosk http://127.0.0.1:8080

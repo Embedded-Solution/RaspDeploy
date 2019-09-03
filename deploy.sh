@@ -9,6 +9,7 @@
 ##################################################################
 
 VERSION="master"
+KUSER="pi"
 
 # parser les arguments
 while getopts v:c option; do
@@ -62,10 +63,10 @@ for f in ./chromium/plugins/*.json; do
     cp $f  /etc/chromium-browser/policies/managed
 done
 
-# Copier les fichiers/dossiers de /homepi/ dans /home/pi
-cp -Rfv ./pi /home
-chown -R pi:pi /home/pi
-chmod +x /home/.script/*
+# Copier les fichiers/dossiers de /pi / dans /home/$KUSER
+cp -Rfv ./$KUSER /home
+chown -R $KUSER:$KUSER /home/$KUSER
+chmod +x /home/$KUSER/.script/*
 
 
 # Installation et configuration de supervisor
@@ -84,7 +85,7 @@ apt install python3-flask python3-flask-sqlalchemy -y
 git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/flaskinterface.git
 rm -R flaskinterface/.git
 cp -Rfv flaskinterface /opt
-chown -R pi:pi /opt/flaskinterface
+chown -R $KUSER:$KUSER /opt/flaskinterface
 
 # Modification du look du bureau
 cp -Rfv ./raspberrypi-artwork /usr/share
