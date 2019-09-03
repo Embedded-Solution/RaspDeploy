@@ -40,19 +40,12 @@ disable_overscan=0
 #sdtv_mode=2
 
 #uncomment to overclock the arm. 700 MHz is the default.
-
-#EASYDKpocket
-arm_freq=700
-gpu_mem=300
-
-#EASYDKbox
-#arm_freq=900
-#gpu_mem=350
-
-#EASYDKtouch
-#arm_freq=800
-#gpu_mem=400
-#lcd_rotate=2 
+total_mem=1024
+arm_freq=1300
+gpu_freq=500
+core_freq=500
+sdram_freq=500
+sdram_schmoo=0x02000020
 
 
 #Désactive l’affichage de l’écran d’alerte électrique
@@ -77,4 +70,4 @@ dtparam=audio=on
 #max_framebuffers=2
 
 [all]
-#dtoverlay=vc4-fkms-v3d
+dtoverlay=vc4-fkms-v3d
