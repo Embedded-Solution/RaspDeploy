@@ -7,7 +7,7 @@
 
 # uncomment this if your display has a black border of unused pixels visible
 # and your display can output without overscan
-disable_overscan=1
+disable_overscan=0
 
 # uncomment the following to adjust overscan. Use positive numbers if console
 # goes off screen, and negative if there is too much border
@@ -40,9 +40,20 @@ disable_overscan=1
 #sdtv_mode=2
 
 #uncomment to overclock the arm. 700 MHz is the default.
-[pi3]
-arm_freq=1000
+
+#EASYDKpocket
+arm_freq=700
 gpu_mem=300
+
+#EASYDKbox
+#arm_freq=900
+#gpu_mem=350
+
+#EASYDKtouch
+#arm_freq=800
+#gpu_mem=400
+#lcd_rotate=2 
+
 
 #Désactive l’affichage de l’écran d’alerte électrique
 disable_splash=1 

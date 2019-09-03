@@ -43,6 +43,20 @@ fi
 # Installation des jeux
 apt install scummvm
 
+#enlever la souris de l'écran
+apt install unclutter
+
+#installer un clavier
+apt install matchbox
+
+#installtion de libwidevine binary and extract pour useragent
+cd /usr/lib/chromium-browser
+wget http://blog.vpetkov.net/wp-content/uploads/2019/08/libwidevinecdm.so_.zip
+unzip libwidevinecdm.so_.zip && chmod 755 libwidevinecdm.so
+
+#Messagerie Thunderbird pour travailler en off line
+sudo apt install thunderbird thunderbird-l10n-fr
+
 # Installation des plugins Chromium
 for f in ./chromium/plugins/*.json; do
     # do some stuff here with "$f"
