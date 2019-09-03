@@ -41,19 +41,19 @@ if ! dpkg -s anydesk >/dev/null 2>&1; then
 fi
 
 # Installation des jeux
-apt install scummvm
+apt install scummvm -y
 
 #enlever la souris de l'écran
-apt install unclutter
+apt install unclutter -y
 
 #installer un clavier
-apt install matchbox
+apt install matchbox -y
 
 #installtion de libwidevine binary and extract pour useragent
 cp .chromium/libwidevinecdm.so /usr/lib/chromium-browser
 
 #Messagerie Thunderbird pour travailler en off line
-sudo apt install thunderbird thunderbird-l10n-fr
+apt install thunderbird thunderbird-l10n-fr -y
 
 # Installation des plugins Chromium
 for f in ./chromium/plugins/*.json; do
@@ -65,6 +65,7 @@ done
 # Copier les fichiers/dossiers de /homepi/ dans /home/pi
 cp -Rfv ./pi /home
 chown -R pi:pi /home/pi
+chmod +x /home/.script/*
 
 
 # Installation et configuration de supervisor

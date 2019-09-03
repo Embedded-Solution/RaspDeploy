@@ -1,9 +1,11 @@
 [Desktop Entry]
+Encoding=UTF-8
 Type=Application
 Name=Kiosk
 Comment=Lancer le kiosk
-Exec=sh /home/pi/.scripts/kiosk.sh
+Exec=sh -c $HOME/.scripts/kiosk.sh
 Icon=/home/pi/images/k-icon.png
-Terminal=false
 Categories=Application
+Terminal=false
+
 
