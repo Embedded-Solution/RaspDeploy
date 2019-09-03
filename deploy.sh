@@ -50,9 +50,7 @@ apt install unclutter
 apt install matchbox
 
 #installtion de libwidevine binary and extract pour useragent
-cd /usr/lib/chromium-browser
-wget http://blog.vpetkov.net/wp-content/uploads/2019/08/libwidevinecdm.so_.zip
-unzip libwidevinecdm.so_.zip && chmod 755 libwidevinecdm.so
+cp .chromium/libwidevinecdm.so /usr/lib/chromium-browser
 
 #Messagerie Thunderbird pour travailler en off line
 sudo apt install thunderbird thunderbird-l10n-fr
@@ -63,11 +61,6 @@ for f in ./chromium/plugins/*.json; do
     echo 'Installation des plugins ' $f
     cp $f  /etc/chromium-browser/policies/managed
 done
-
-
-# Installation de l'extension TotemHome
-mkdir /usr/share/chromium-browser
-cp -f ./chromium/boonncnoiobakmnakbmefocmcgibnjld.json /usr/share/chromium-browser/
 
 # Copier les fichiers/dossiers de /homepi/ dans /home/pi
 cp -Rfv ./pi /home
