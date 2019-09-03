@@ -50,7 +50,7 @@ apt install unclutter -y
 apt install matchbox -y
 
 #installtion de libwidevine binary and extract pour useragent
-cp .chromium/libwidevinecdm.so /usr/lib/chromium-browser
+cp ./chromium/libwidevinecdm.so /usr/lib/chromium-browser
 
 #Messagerie Thunderbird pour travailler en off line
 apt install thunderbird thunderbird-l10n-fr -y
