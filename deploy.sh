@@ -7,6 +7,9 @@
 #                                                                #
 ##################################################################
 
+
+VERSION="master"
+
 # parser les arguments
 while getopts v:c option; do
 	case "${option}"
@@ -15,8 +18,6 @@ while getopts v:c option; do
 		c) CLEAN=0;;
 	esac
 done
-
-VERSION="master"
 KUSER="edkuser"
 GRPSADMIN="adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio"
 GRPSREST="dialout,cdrom,audio,video,games,users,input,netdev,gpio"
