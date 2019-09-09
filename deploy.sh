@@ -54,6 +54,9 @@ fi
 
 ########## SCRIPTS ET MODIFICATION SYSTEM (LOOK, ETC...)
 
+# Changer le hostname
+sudo sed -i "s/raspberrypi/easydigitalkey/g" /etc/hostname
+
 # Installation des scripts utilisateurs et système
 cp -f ./alluserscripts/* /usr/local/sbin
 
@@ -81,7 +84,7 @@ echo "edkuser ALL=(ALL) NOPASSWD: /sbin/reboot,/sbin/shutdown,/usr/sbin/service"
 sudo sed -i "s/autologin-user=pi/autologin-user=edkuser/g" /etc/lightdm/lightdm.conf
 
 # Installation du plugin 'totemhome'
-git clone -b $VERSION --depth 1 http://deploy.ioconstellation.com/iostaff/totemhome.git
+git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/totemhome.git
 rm -R totemhome/.git
 cp -Rf totemhome ./alluserhome/.config/chromium/Extensionsio
 
@@ -115,7 +118,7 @@ done
 
 # Installer Flaskinterface
 apt install python3-flask python3-flask-sqlalchemy -y
-git clone -b $VERSION --depth 1 http://deploy.ioconstellation.com/iostaff/flaskinterface.git
+git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/flaskinterface.git
 rm -R flaskinterface/.git
 cp -Rf flaskinterface /opt
 chown -R $KUSER:$KUSER /opt/flaskinterface
