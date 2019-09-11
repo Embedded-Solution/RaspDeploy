@@ -63,6 +63,9 @@ cp -f ./alluserscripts/* /usr/local/sbin
 # Copie des fichier partagés par ts les utilisateurs
 cp -Rf ./usersshare/* /usr/share
 
+# Annuler la demande de confirmation des launchers bureau
+sudo sed -i '/\[config\]/a quick_exec=1' /etc/xdg/libfm/libfm.conf
+
 
 ########## CRÉATION ET CONFIGURATION DES UTILISATEURS ###########
 

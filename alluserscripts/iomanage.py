@@ -249,6 +249,7 @@ def main(macadress):
             try:
                 subprocess.check_output(commande, shell=True)
             except subprocess.CalledProcessError as e:
+                print("Erreur de commande %s", e)
 
     else:
         logger.info("Le device avec l'adresse mac %s inconu", macadress)
