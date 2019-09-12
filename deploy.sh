@@ -119,8 +119,9 @@ for f in ./supervisor/*.conf; do
     cp $f  /etc/supervisor/conf.d/
 done
 
-# Installer Flaskinterface
-apt install python3-flask python3-flask-sqlalchemy -y
+##################### FLASKINTERFACE #######################
+
+apt install python3-flask python3-flask-sqlalchemy gunicorn3 -y
 git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/flaskinterface.git
 rm -R flaskinterface/.git
 cp -Rf flaskinterface /opt
@@ -137,6 +138,11 @@ chown -R $KUSER:$KUSER /opt/flaskinterface
 # Nettoyer le cache apt
 apt autoremove -y
 apt autoclean
+
+# Redémarage des services liés
+/usr/bin/supervisorctl restart interface
+/usr/bin/supervisorctl restart iomanage
+
 
 # Fermeture et nettoyage des fichiers de déploiement
 cd ~/

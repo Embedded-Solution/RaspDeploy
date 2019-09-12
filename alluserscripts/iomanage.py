@@ -245,7 +245,8 @@ def main(macadress):
         else:
             logger.info("Pas de mise à jour pour le device")
         if totem:
-            commande = "/usr/bin/rsync -avzu debian@54.38.42.84::totems/{}/ /home/edkuser/.kioskfiles/".format(totem)
+            options = '-avzu --delete-after --exclude=result.db --delete-excluded'
+            commande = "/usr/bin/rsync {} debian@54.38.42.84::totems/{}/ /home/edkuser/.kioskfiles/".format(options, totem)
             try:
                 subprocess.check_output(commande, shell=True)
             except subprocess.CalledProcessError as e:
