@@ -30,6 +30,7 @@ echo "Version = " $VERSION
 if [ $CLEAN ]; then
 	echo "Suppression de l'utilisateur 'edkuser' et du dossier 'flaskinterface'"
   userdel -r -f edkuser
+  rm -R /home/edkuser
   rm -r /opt/flaskinterface
 fi
 
