@@ -15,7 +15,7 @@ while getopts v:c option; do
 	case "${option}"
 		in
 		v) VERSION=${OPTARG};;
-		c) CLEAN=0;;
+		c) CLEAN=1;;
 	esac
 done
 
@@ -27,8 +27,10 @@ eval $INFOS
 
 echo "Version = " $VERSION
 
-if [ -n $CLEAN ]; then
-	echo "Tout Nettoyer"
+if [ $CLEAN ]; then
+	echo "Suppression de l'utilisateur 'edkuser' et du dossier 'flaskinterface'"
+  userdel -r -f edkuser
+  rm -r /opt/flaskinterface
 fi
 
 ############## PAQUETS, BIBLIOTEQUE, ETC, #####################
