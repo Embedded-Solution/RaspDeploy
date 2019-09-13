@@ -92,6 +92,7 @@ sudo sed -i "s/autologin-user=pi/autologin-user=edkuser/g" /etc/lightdm/lightdm.
 # Installation du plugin 'totemhome'
 git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/totemhome.git
 rm -R totemhome/.git
+mkdir -p ./alluserhome/.config/chromium/Extensionsio
 cp -Rf totemhome ./alluserhome/.config/chromium/Extensionsio
 
 # Copier les fichiers/dossiers home par defaut des utilisateurs
