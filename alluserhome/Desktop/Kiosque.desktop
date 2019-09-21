@@ -3,8 +3,8 @@ Encoding=UTF-8
 Type=Application
 Name=Kiosk
 Comment=Lancer le kiosk
-Exec=sh -c $HOME/.scripts/kiosk.sh
-Icon=/home/pi/images/k-icon.png
+Exec=bash /usr/local/sbin/openkiosk.sh
+Icon=/usr/share/images/k-icon.png
 Categories=Application
 Terminal=false
 

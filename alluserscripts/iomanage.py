@@ -86,8 +86,6 @@ def getdevice(macadress):
     if rep:
         id = rep['id']
         totem = rep['totem']
-
-        print(rep)
         return id, totem
     else:
         return False
@@ -218,11 +216,9 @@ def procces_update(update):
 
     if postact == 'REFRESH':
         img = os.path.join(targetdir, media_name)
-        print(img)
         try:
             cmd = 'export DISPLAY=:0 && export XAUTHORITY=/home/{}/.Xauthority && export XDG_RUNTIME_DIR=/run/user/1000 && pcmanfm -w {} && export DISPLAY='.format(
                 user, img)
-            print(cmd)
             os.system(cmd)
         except Exception:
             return (2, "{}: Erreur d\'exécution".format(action))
@@ -239,9 +235,7 @@ def main(macadress):
         updates = getlistupdate(device_id)
         if updates:
             for upd in updates:
-                print (upd)
                 update = getupdate(upd['action'])
-                print(update)
                 u, msg = procces_update(update)
                 if u == 2:
                     logger.error(msg)
@@ -251,8 +245,8 @@ def main(macadress):
         else:
             logger.info("Pas de mise à jour pour le device")
         if totem:
-            print(totem)
-            commande = "/usr/bin/rsync -avzu debian@54.38.42.84::totems/{}/ /home/pi/.kioskfiles/".format(totem)
+            options = '-avzu --delete-after --exclude=result.db --delete-excluded'
+            commande = "/usr/bin/rsync {} debian@54.38.42.84::totems/{}/ /home/edkuser/.kioskfiles/".format(options, totem)
             try:
                 subprocess.check_output(commande, shell=True)
             except subprocess.CalledProcessError as e:
