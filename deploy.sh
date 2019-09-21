@@ -136,9 +136,10 @@ chown -R $KUSER:$KUSER /opt/flaskinterface
 ### à faire: changer framboise ###########################
 
 # Copier les fichiers de boot et de splash
-#cp -Rfv ./boot /
-#cp -fv ./divers/splash.png /usr/share/plymouth/themes/pix/splash.png
-
+if [ $VERSION = "master" ]; then
+	cp -Rfv ./boot /
+	cp -fv ./divers/splash.png /usr/share/plymouth/themes/pix/splash.png
+fi
 
 # Nettoyer le cache apt
 apt autoremove -y
