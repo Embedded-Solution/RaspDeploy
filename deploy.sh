@@ -110,8 +110,8 @@ done
 cp ./chromium/libwidevinecdm.so /usr/lib/chromium-browser
 
 # Installation des plugins Chromium
+rm /etc/chromium-browser/policies/managed/*.json
 for f in ./chromium/policies/*.json; do
-    # do some stuff here with "$f"
     echo 'Installation des plugins ' $f
     cp $f  /etc/chromium-browser/policies/managed
 done
