@@ -9,7 +9,6 @@
 
 
 VERSION="master"
-
 # parser les arguments
 while getopts v:c option; do
 	case "${option}"
@@ -37,15 +36,17 @@ fi
 ############## PAQUETS, BIBLIOTEQUE, ETC, #####################
 
 # Mise à jour 
-apt update
+apt update 
 apt upgrade -y
 
-# Installation des paquest utiles
-apt install accountsservice unclutter matchbox thunderbird thunderbird-l10n-fr -y
+# Installation des paquest utiles /supprimer thunderbird
+apt install  accountsservice unclutter matchbox gcompris -y
+#jeux ok
+apt install  gcompris armagetronad -y
 
 # Suppression des paquets inutiles
 apt remove geany geany-common -y
-
+ 
 # Installation de anydesk
 if ! dpkg -s anydesk >/dev/null 2>&1; then
     apt install libpango1.0-0 libegl1-mesa -y
@@ -53,9 +54,9 @@ if ! dpkg -s anydesk >/dev/null 2>&1; then
     dpkg -i anydesk_5.1.1-1_armhf.deb
     rm anydesk_5.1.1-1_armhf.deb
 fi
+ 
 
-
-########## SCRIPTS ET MODIFICATION SYSTEM (LOOK, ETC...)
+# ######### SCRIPTS ET MODIFICATION SYSTEM (LOOK, ETC...)
 
 # Changer le hostname
 sudo sed -i "s/raspberrypi/easydigitalkey/g" /etc/hostname
@@ -95,6 +96,9 @@ rm -R totemhome/.git
 mkdir -p ./alluserhome/.config/chromium/Extensionsio
 cp -Rf totemhome ./alluserhome/.config/chromium/Extensionsio
 
+# Installation du plugin virtualkeyboard modifié
+cp -Rf ./chromium/vkio ./alluserhome/.config/chromium/Extensionsio
+
 # Copier les fichiers/dossiers home par defaut des utilisateurs
 for luser in pi edkuser edkstf
 do 
@@ -110,8 +114,8 @@ done
 cp ./chromium/libwidevinecdm.so /usr/lib/chromium-browser
 
 # Installation des plugins Chromium
-rm /etc/chromium-browser/policies/managed/*.json
 for f in ./chromium/policies/*.json; do
+    # do some stuff here with "$f"
     echo 'Installation des plugins ' $f
     cp $f  /etc/chromium-browser/policies/managed
 done
