@@ -49,7 +49,7 @@ apt remove geany geany-common -y
 if ! dpkg -s anydesk >/dev/null 2>&1; then
     apt install libpango1.0-0 libegl1-mesa -y
     wget https://download.anydesk.com/rpi/anydesk_5.1.1-1_armhf.deb
-    sudo dpkg -i anydesk_5.1.1-1_armhf.deb
+    dpkg -i anydesk_5.1.1-1_armhf.deb
     rm anydesk_5.1.1-1_armhf.deb
     echo 'ad.security.interactive_access=0' | sudo tee -a /etc/anydesk/system.conf
     echo 'ad.security.file_manager=false' | sudo tee -a /etc/anydesk/system.conf
@@ -107,7 +107,6 @@ for luser in pi edkuser edkstf
 do 
 	cp -Rf ./alluserhome -T /home/$luser
 	chown -R $luser:$luser /home/$luser
-	#chmod +x /home/$luser/.script/*
 done
 
 
@@ -118,7 +117,6 @@ cp ./chromium/libwidevinecdm.so /usr/lib/chromium-browser
 
 # Installation des plugins Chromium
 for f in ./chromium/policies/*.json; do
-    # do some stuff here with "$f"
     echo 'Installation des plugins ' $f
     cp $f  /etc/chromium-browser/policies/managed
 done
@@ -140,8 +138,6 @@ cp -Rf flaskinterface /opt
 chown -R $KUSER:$KUSER /opt/flaskinterface
 sudo sed -i '/^ExecStart/ s/$/ plugin=a2dp/' /lib/systemd/system/bluetooth.service
 
-
-### à faire: changer framboise ###########################
 
 # Copier les fichiers de boot et de splash
 
