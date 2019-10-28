@@ -19,8 +19,8 @@ while getopts v:c option; do
 done
 
 KUSER="edkuser"
-GRPSADMIN="adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio"
-GRPSREST="dialout,cdrom,audio,video,games,users,input,netdev,gpio"
+GRPSADMIN="adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio,bluetooth"
+GRPSREST="dialout,cdrom,audio,video,games,users,input,netdev,gpio,bluetooth"
 INFOS=$(curl http://deploy.ioconstellation.com/infos/infos.txt)
 eval $INFOS
 
@@ -40,9 +40,7 @@ apt update
 apt upgrade -y
 
 # Installation des paquest utiles /supprimer thunderbird
-apt install  accountsservice unclutter matchbox gcompris -y
-#jeux ok
-apt install  gcompris armagetronad -y
+apt install  accountsservice unclutter matchbox -y
 
 # Suppression des paquets inutiles
 apt remove geany geany-common -y
@@ -51,8 +49,13 @@ apt remove geany geany-common -y
 if ! dpkg -s anydesk >/dev/null 2>&1; then
     apt install libpango1.0-0 libegl1-mesa -y
     wget https://download.anydesk.com/rpi/anydesk_5.1.1-1_armhf.deb
-    dpkg -i anydesk_5.1.1-1_armhf.deb
+    sudo dpkg -i anydesk_5.1.1-1_armhf.deb
     rm anydesk_5.1.1-1_armhf.deb
+    echo 'ad.security.interactive_access=0' | sudo tee -a /etc/anydesk/system.conf
+    echo 'ad.security.file_manager=false' | sudo tee -a /etc/anydesk/system.conf
+    echo 'ad.security.clipboard.files=false' | sudo tee -a /etc/anydesk/system.conf
+    echo 'ad.security.hear_audio=false' | sudo tee -a /etc/anydesk/system.conf
+    sudo systemctl daemon-reload
 fi
  
 
@@ -129,12 +132,13 @@ done
 
 ##################### FLASKINTERFACE #######################
 
-apt install python3-flask python3-flask-sqlalchemy gunicorn3 -y
+apt install python3-flask python3-flask-sqlalchemy gunicorn3 python3-bluez python3-alsaaudio python3-pexpect -y
 pip3 install timeloop
 git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/flaskinterface.git
 rm -R flaskinterface/.git
 cp -Rf flaskinterface /opt
 chown -R $KUSER:$KUSER /opt/flaskinterface
+sudo sed -i '/^ExecStart/ s/$/ plugin=a2dp/' /lib/systemd/system/bluetooth.service
 
 
 ### à faire: changer framboise ###########################
