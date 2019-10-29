@@ -73,6 +73,9 @@ cp -Rf ./usersshare/* /usr/share
 # Annuler la demande de confirmation des launchers bureau
 sudo sed -i '/\[config\]/a quick_exec=1' /etc/xdg/libfm/libfm.conf
 
+# Passer la mémoire swap à 500M
+sudo sed -i 's/SWAPSIZE=100/SWAPSIZE=500/g' /etc/dphys-swapfile
+
 
 ########## CRÉATION ET CONFIGURATION DES UTILISATEURS ###########
 
