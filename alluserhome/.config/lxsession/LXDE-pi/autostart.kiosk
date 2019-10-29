@@ -1,3 +1,6 @@
+@/home/edkuser/.scripts/xrandcmd.sh
+@feh --fullscreen /home/edkuser/images/splashkiosk.jpg &
+
 @xset s off
 @xset -dpms
 @xset s noblank
