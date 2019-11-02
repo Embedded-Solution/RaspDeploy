@@ -8,4 +8,4 @@ arm_freq=700
 disable_splash=1
 
 # Driver gpu acceleré (full)
-dtoverlay=vc4-kms-v3d
+dtoverlay=vc4-fkms-v3d
