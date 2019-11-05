@@ -245,7 +245,7 @@ def main(macadress):
         else:
             logger.info("Pas de mise à jour pour le device")
         if totem:
-            options = '-avzu --delete-after --exclude=result.db --delete-excluded'
+            options = '-avzu --delete-after --exclude=result.db --delete-excluded --chown edkuser'
             commande = "/usr/bin/rsync {} debian@54.38.42.84::totems/{}/ /home/edkuser/.kioskfiles/".format(options, totem)
             try:
                 subprocess.check_output(commande, shell=True)
