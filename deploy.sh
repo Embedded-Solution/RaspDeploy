@@ -40,7 +40,7 @@ apt update
 apt upgrade -y
 
 # Installation des paquest utiles /supprimer thunderbird
-apt install  accountsservice unclutter matchbox -y
+apt install  accountsservice unclutter matchbox feh -y
 
 # Suppression des paquets inutiles
 apt remove geany geany-common -y
