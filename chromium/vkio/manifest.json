@@ -21,6 +21,7 @@
 	  "tabs", "<all_urls>"
 	],
   "web_accessible_resources": [
+    "options.html",
     "keyboard.html",
     "keyboard_*.html",
     "keyboard_en.html",

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Chrome totem
+Comment=Lancer de chromium avec les mêmes réglages que le kiosk
+Exec=bash /usr/local/sbin/openchrome.sh
+
+Icon=/usr/share/icons/hicolor/256x256/apps/chromium-browser.png
+Terminal=false
