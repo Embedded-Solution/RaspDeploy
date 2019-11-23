@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=KioskGPU
+Comment=Lancer le kiosk avec accelération materielle
+Exec=bash /usr/local/sbin/openkioskgpu.sh
+Icon=/usr/share/images/k-icon.png
+Categories=Application
+Terminal=false
