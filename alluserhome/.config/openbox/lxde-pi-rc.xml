@@ -18,7 +18,7 @@
 
 	<keybind key="XF86AudioMute">
 		<action name="Execute">
-			<command>amixer set PCM 250-</command>
+			<command>/bin/sh -c "amixer get PCM | grep off > /dev/null &amp;&amp; amixer -q set PCM unmute > /dev/null || amixer -q set PCM mute > /dev/null"</command>
 		</action>
 	</keybind>
 
