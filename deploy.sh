@@ -41,6 +41,7 @@ apt upgrade -y
 
 # Installation des paquest utiles /supprimer thunderbird
 apt install  accountsservice unclutter matchbox feh -y
+apt install libreoffice libreoffice-l10n-fr -y
 
 # Suppression des paquets inutiles
 apt remove geany geany-common -y
