@@ -157,6 +157,7 @@ apt autoclean
 cp -Rf ./services/* /etc/systemd/system
 sudo systemctl enable ioconst.service
 sudo systemctl start ioconst.service
+sudo /usr/local/sbin/mountedk.sh.x
 
 # Redémarage des services liés
 /usr/bin/supervisorctl restart interface
