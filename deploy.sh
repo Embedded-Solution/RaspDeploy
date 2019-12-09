@@ -40,11 +40,12 @@ apt update
 apt upgrade -y
 
 # Installation des paquest utiles /supprimer thunderbird
-apt install  accountsservice unclutter matchbox feh -y
+apt install  accountsservice unclutter matchbox feh ecryptfs-utils -y
 apt install libreoffice libreoffice-l10n-fr -y
 
 # Suppression des paquets inutiles
 apt remove geany geany-common -y
+
  
 # Installation de anydesk
 if ! dpkg -s anydesk >/dev/null 2>&1; then
@@ -134,7 +135,7 @@ done
 
 ##################### FLASKINTERFACE #######################
 
-apt install python3-flask python3-flask-sqlalchemy gunicorn3 python3-bluez python3-alsaaudio python3-pexpect -y
+apt install python3-flask python3-flask-sqlalchemy gunicorn3 python3-bluez python3-alsaaudio python3-pexpect python3-pymediainfo -y
 pip3 install timeloop
 git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/flaskinterface.git
 rm -R flaskinterface/.git
@@ -151,6 +152,11 @@ cp -fv ./divers/splash.png /usr/share/plymouth/themes/pix/splash.png
 # Nettoyer le cache apt
 apt autoremove -y
 apt autoclean
+
+# Création du service d'encryption de kioskfile
+cp -Rf ./services/* /etc/systemd/system
+sudo systemctl enable ioconst.service
+sudo systemctl start ioconst.service
 
 # Redémarage des services liés
 /usr/bin/supervisorctl restart interface

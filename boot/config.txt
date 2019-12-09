@@ -3,6 +3,7 @@ dtparam=audio=on
 
 # Over clock
 arm_freq=700
+gpu_mem=192
 
 #Désactive l’affichage de l’écran d’alerte électrique
 disable_splash=1
