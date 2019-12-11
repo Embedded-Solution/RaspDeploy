@@ -135,7 +135,7 @@ done
 
 ##################### FLASKINTERFACE #######################
 
-apt install python3-flask python3-flask-sqlalchemy gunicorn3 python3-bluez python3-alsaaudio python3-pexpect python3-pymediainfo -y
+apt install python3-flask python3-flask-sqlalchemy gunicorn3 python3-bluez python3-alsaaudio python3-pexpect python3-pymediainfo python3-evdev -y
 pip3 install timeloop
 git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/flaskinterface.git
 rm -R flaskinterface/.git
