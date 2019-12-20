@@ -31,9 +31,9 @@ TESTMODEL=$( cat /proc/device-tree/model | cut -c-22 )
 echo $TESTMODEL
 
 if test "$TESTMODEL" = "Raspberry Pi 3 Model A"; then
-    MODEL="Aplus"
+    MODEL="aplus"
 else
-    MODEL="Autres"
+    MODEL="autres"
 fi
 
 if [ $CLEAN ]; then
