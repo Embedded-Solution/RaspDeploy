@@ -10,11 +10,12 @@
 
 VERSION="master"
 # parser les arguments
-while getopts v:c option; do
+while getopts v:ckm: option; do
 	case "${option}"
 		in
 		v) VERSION=${OPTARG};;
 		c) CLEAN=1;;
+    k) KRYPT=1;;
 	esac
 done
 
@@ -25,6 +26,15 @@ INFOS=$(curl http://deploy.ioconstellation.com/infos/infos.txt)
 eval $INFOS
 
 echo "Version = " $VERSION
+
+TESTMODEL=$( cat /proc/device-tree/model | cut -c-22 )
+echo $TESTMODEL
+
+if test "$TESTMODEL" = "Raspberry Pi 3 Model A"; then
+    MODEL="Aplus"
+else
+    MODEL="Autres"
+fi
 
 if [ $CLEAN ]; then
 	echo "Suppression de l'utilisateur 'edkuser' et du dossier 'flaskinterface'"
@@ -146,18 +156,20 @@ sudo sed -i '/^ExecStart/ s/$/ plugin=a2dp/' /lib/systemd/system/bluetooth.servi
 
 # Copier les fichiers de boot et de splash
 
-cp -Rfv ./boot /
+cp /boot/$MODEL/* /boot/
 cp -fv ./divers/splash.png /usr/share/plymouth/themes/pix/splash.png
 
 # Nettoyer le cache apt
 apt autoremove -y
 apt autoclean
 
+if [ $KRYPT ]; then
 # Création du service d'encryption de kioskfile
-cp -Rf ./services/* /etc/systemd/system
-sudo systemctl enable ioconst.service
-sudo systemctl start ioconst.service
-sudo /usr/local/sbin/mountedk.sh.x
+  cp -Rf ./services/* /etc/systemd/system
+  sudo systemctl enable ioconst.service
+  sudo systemctl start ioconst.service
+  sudo /usr/local/sbin/mountedk.sh.x
+fi
 
 # Redémarage des services liés
 /usr/bin/supervisorctl restart interface
