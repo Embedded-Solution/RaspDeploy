@@ -17,6 +17,11 @@ Pour supprimer l'ancier fichier raspdeploy en cas d'érreur
 `cd raspdeploy/ && sudo sh deploy.sh -v testing`
 
 ### Options
+#### Upgrade: -u
+L'ajout de -u à la commande sh deploy.sh active l'uprgrade des paquets au moment de l'installation.
+
+`cd raspdeploy/ && sudo sh deploy.sh -c [-v version]`
+
 #### Nettoyage: -c
 L'ajout de -c à la commande sh deploy.sh permet de supprimer l'utilistateur edkuser et son dossier ainsi que le dossier /opt/flaskinterface avant le déploiement.
 

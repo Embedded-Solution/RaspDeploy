@@ -10,12 +10,13 @@
 
 VERSION="master"
 # parser les arguments
-while getopts v:ckm: option; do
+while getopts v:cku option; do
 	case "${option}"
 		in
 		v) VERSION=${OPTARG};;
 		c) CLEAN=1;;
     k) KRYPT=1;;
+    u) UPDATE=1;;
 	esac
 done
 
@@ -45,9 +46,11 @@ fi
 
 ############## PAQUETS, BIBLIOTEQUE, ETC, #####################
 
-# Mise à jour 
-apt update 
-apt upgrade -y
+# Mise à jour
+if [ $UPDATE ]; then 
+  apt update 
+  apt upgrade -y
+fi
 
 # Installation des paquest utiles /supprimer thunderbird
 apt install  accountsservice unclutter matchbox feh ecryptfs-utils -y
