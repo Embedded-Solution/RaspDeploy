@@ -52,9 +52,8 @@ if [ $UPDATE ]; then
   apt upgrade -y
 fi
 
-# Installation des paquest utiles /supprimer thunderbird
-apt install  accountsservice unclutter matchbox feh ecryptfs-utils -y
-apt install libreoffice libreoffice-l10n-fr -y
+# Installation des paquest utiles
+apt install  accountsservice unclutter matchbox feh ecryptfs-utils youtube.dl install libreoffice libreoffice-l10n-fr -y
 
 # Suppression des paquets inutiles
 apt remove geany geany-common -y
