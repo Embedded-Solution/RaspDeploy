@@ -1,8 +1,13 @@
 # Enable audio (loads snd_bcm2835)
 dtparam=audio=on
 
+# uncomment this if your display has a black border of unused pixels visible
+# and your display can output without overscan
+disable_overscan=1
+
 # Over clock
-arm_freq=700
+core_freq=400 #Fréquence du GPU
+arm_freq=900 #Fréquence du CPU
 gpu_mem=64
 
 #Désactive l’affichage de l’écran d’alerte électrique
