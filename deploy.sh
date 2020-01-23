@@ -16,7 +16,7 @@ while getopts v:cku option; do
 		v) VERSION=${OPTARG};;
 		c) CLEAN=1;;
     k) KRYPT=1;;
-    u) UPDATE=1;;
+    u) UPGRADE=1;;
 	esac
 done
 
@@ -47,8 +47,8 @@ fi
 ############## PAQUETS, BIBLIOTEQUE, ETC, #####################
 
 # Mise à jour
-if [ $UPDATE ]; then 
-  apt update 
+apt update
+if [ $UPGRADE ]; then 
   apt upgrade -y
 fi
 
