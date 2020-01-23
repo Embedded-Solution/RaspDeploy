@@ -158,7 +158,7 @@ sudo sed -i '/^ExecStart/ s/$/ plugin=a2dp/' /lib/systemd/system/bluetooth.servi
 
 # Copier les fichiers de boot et de splash
 
-cp /boot/$MODEL/* /boot/
+cp ./boot/$MODEL/* /boot/
 cp -fv ./divers/splash.png /usr/share/plymouth/themes/pix/splash.png
 
 # Nettoyer le cache apt
