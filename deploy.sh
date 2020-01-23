@@ -53,7 +53,7 @@ if [ $UPDATE ]; then
 fi
 
 # Installation des paquest utiles
-apt install  accountsservice unclutter matchbox feh ecryptfs-utils youtube.dl install libreoffice libreoffice-l10n-fr -y
+apt install  accountsservice unclutter matchbox feh ecryptfs-utils youtube-dl libreoffice libreoffice-l10n-fr -y
 
 # Suppression des paquets inutiles
 apt remove geany geany-common -y
