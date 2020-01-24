@@ -53,10 +53,10 @@ if [ $UPGRADE ]; then
 fi
 
 # Installation des paquest utiles
-apt install  accountsservice unclutter matchbox feh ecryptfs-utils youtube-dl libreoffice libreoffice-l10n-fr -y
+apt install  accountsservice unclutter matchbox feh ecryptfs-utils libreoffice libreoffice-l10n-fr -y
 
 # Suppression des paquets inutiles
-apt remove geany geany-common -y
+apt remove geany geany-common youtube-dl -y
 
  
 # Installation de anydesk
@@ -148,7 +148,7 @@ done
 ##################### FLASKINTERFACE #######################
 
 apt install python3-flask python3-flask-sqlalchemy gunicorn3 python3-bluez python3-alsaaudio python3-pexpect python3-pymediainfo python3-evdev -y
-pip3 install timeloop
+pip3 install timeloop youtube-dl
 git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/flaskinterface.git
 rm -R flaskinterface/.git
 cp -Rf flaskinterface /opt
