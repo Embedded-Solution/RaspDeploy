@@ -10,12 +10,41 @@ from logmanage import logger
 from pwd import getpwnam
 from time import sleep
 import subprocess
+from os.path import join as opj
 
-VERSION = '1.0.6'
+VERSION = '1.0.7'
 
 token = '82a5aa8bfc86bd7f1a9328d94b4ad4b9289670e3'
 server = 'ioconstellation.com'
 head = {'Authorization': 'token {}'.format(token)}
+runfile = '/var/local/iomanage.run'
+user = 'edkuser'
+home = '/home/{}'.format(user)
+kioskdir = '{}/.kioskfiles'.format(home)
+totemdir = '{}/.totemfiles'.format(home)
+masterdir = '{}/.masterfiles'.format(home)
+edkuid = getpwnam('edkuser').pw_uid
+piguid = getpwnam('pi').pw_gid
+
+
+def running(text):
+    with open(runfile, 'w') as f:
+        f.write(text)
+
+
+def getrunning():
+    with open(runfile, 'r') as f:
+        return f.readline()
+
+
+def runcmd(cmd, fin=None):
+    try:
+        subprocess.check_output(cmd, shell=True)
+    except subprocess.CalledProcessError as e:
+        print("Erreur de commande %s", e)
+    finally:
+        fin
+        pass
 
 
 def getmac():
@@ -26,13 +55,11 @@ def getmac():
             try:
                 mac = open(rootnet + i + '/address').readline()
                 return mac[0:17]
-
             except Exception as e:
                 logger.info(
                     "Impossible de lire l'adresse mac \
                      de l'interface: %s", interface)
                 logger.warning('Code Erreur : %s', e)
-
     return False
 
 
@@ -73,22 +100,20 @@ def getfile(posturl, filename):
         logger.warning('Code Erreur : %s', e)
         exit()
 
-# Non utilisé
-def enrdevice(name, macadress):
-    url = 'https://' + server + "/device/record/"
-    datas = {'shortName': name, 'macadress': macadress}
-    response = requests.post(url, headers=head, data=datas, verify=False)
+
+# def enrdevice(name, macadress):
+#     url = 'https://' + server + "/device/record/"
+#     datas = {'shortName': name, 'macadress': macadress}
+#     response = requests.post(url, headers=head, data=datas, verify=False)
 
 
 def getdevice(macadress):
     datas = {'macadress': macadress, 'version': VERSION}
     rep = reqserver('/device/record/', datas=datas, succes=201)
     if rep:
-        id = rep['id']
-        totem = rep['totem']
-        return id, totem
+        return rep
     else:
-        return False
+        return {}
 
 
 def getlistupdate(device_id):
@@ -107,7 +132,7 @@ def getmedia(media_id):
 
 
 def updatestatus(id, action, status):
-    url = '/devmanage/api/deviceaction/' + str(id) + '/' + str(action) + '/' 
+    url = '/devmanage/api/deviceaction/' + str(id) + '/' + str(action) + '/'
     status = {'status': status, 'action': action}
     reqserver(url, 'put', status, 201)
 
@@ -228,8 +253,39 @@ def procces_update(update):
     return (1, msg)
 
 
+def synchronise(totem, directory):
+    running('run')
+    options = '-vurL --delete-after --exclude=result.db \
+              --delete-excluded --chown edkuser'
+    commande = "/usr/bin/rsync {} debian@54.38.42.84::totems/{}/ \
+                 {}/".format(options, totem, directory)
+    runcmd(commande, running('pause'))
+
+
+def createlink(dirtolink):
+    listd = [d for d in os.listdir(dirtolink)]
+    print(listd)
+    for d in listd:
+        if not os.path.exists(opj(kioskdir, d)):
+            os.mkdir(opj(kioskdir, d))
+            os.chown(opj(kioskdir, d), edkuid, piguid)
+        listf = [opj(d, f)
+                 for f in os.listdir(
+            opj(dirtolink, d))]
+        for f in listf:
+            if not os.path.exists(opj(kioskdir, f)):
+                print ('createlink', bool(
+                    os.path.exists(opj(kioskdir, f))))
+                os.symlink(opj(dirtolink, f),
+                           opj(kioskdir, f))
+
+
 def main(macadress):
-    device_id, totem = getdevice(macadress)
+    device = getdevice(macadress)
+    print(device)
+    device_id = device.get('id', None)
+    totem = device.get('totem', None)
+    master = device.get('master', None)
     logger.info("device_id: %s", str(device_id))
     if device_id:
         updates = getlistupdate(device_id)
@@ -244,22 +300,36 @@ def main(macadress):
                 updatestatus(device_id, upd['action'], u)
         else:
             logger.info("Pas de mise à jour pour le device")
-        if totem:
-            options = '-avzu --delete-after --exclude=result.db --delete-excluded --chown edkuser'
-            commande = "/usr/bin/rsync {} debian@54.38.42.84::totems/{}/ /home/edkuser/.kioskfiles/".format(options, totem)
-            try:
-                subprocess.check_output(commande, shell=True)
-            except subprocess.CalledProcessError as e:
-                print("Erreur de commande %s", e)
+        print(getrunning())
+        listplugs = [d for d in os.listdir(opj(kioskdir, 'ukplugs'))].sort()
+        if totem and getrunning() != 'run':
+            synchronise(totem, totemdir)
+            createlink(totemdir)
+        if master and getrunning() != 'run':
+            synchronise(master, masterdir)
+            createlink(masterdir)
+        runcmd("/usr/bin/find {} -xtype l -delete".format(kioskdir))
+        nlplugs = [d for d in os.listdir(opj(kioskdir, 'ukplugs'))].sort()
+        if listplugs != nlplugs:
+            runcmd("supervisorctl restart interface")
 
     else:
         logger.info("Le device avec l'adresse mac %s inconu", macadress)
 
 
+# mise a jour des anciens iomanage
+if not os.path.exists(totemdir):
+    os.rename(kioskdir, totemdir)
+    os.mkdir(kioskdir)
+    os.chown(kioskdir, edkuid, piguid)
+    os.mkdir(opj(kioskdir, 'ukplugs'))
+    os.chown(opj(kioskdir, 'ukplugs'), edkuid, piguid)
+    running('pause')
+
 
 if __name__ == "__main__":
     macadress = getmac()
-    while 1:
+    x = 0
+    while True:
         main(macadress)
-        sleep(10)
-
+        sleep(60)
