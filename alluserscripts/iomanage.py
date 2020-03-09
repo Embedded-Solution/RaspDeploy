@@ -12,7 +12,7 @@ from time import sleep
 import subprocess
 from os.path import join as opj
 
-VERSION = '1.1.0'
+VERSION = '1.1.1'
 
 token = '82a5aa8bfc86bd7f1a9328d94b4ad4b9289670e3'
 server = 'ioconstellation.com'
@@ -299,6 +299,7 @@ def createlink(dirtolink):
             if not os.path.exists(opj(kioskdir, f)):
                 os.symlink(opj(dirtolink, f),
                            opj(kioskdir, f))
+                os.chown(opj(kioskdir, f), edkuid, piguid)
 
 
 def getlistdir(dir):
