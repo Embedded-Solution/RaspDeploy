@@ -2,7 +2,7 @@
 import requests
 import json
 import os
-import stat
+import sys
 import shutil
 import zipfile
 import tarfile
@@ -12,7 +12,7 @@ from time import sleep
 import subprocess
 from os.path import join as opj
 
-VERSION = '1.0.7'
+VERSION = '1.1.0'
 
 token = '82a5aa8bfc86bd7f1a9328d94b4ad4b9289670e3'
 server = 'ioconstellation.com'
@@ -25,6 +25,7 @@ totemdir = '{}/.totemfiles'.format(home)
 masterdir = '{}/.masterfiles'.format(home)
 edkuid = getpwnam('edkuser').pw_uid
 piguid = getpwnam('pi').pw_gid
+debug = False
 
 
 def running(text):
@@ -58,7 +59,7 @@ def getmac():
             except Exception as e:
                 logger.info(
                     "Impossible de lire l'adresse mac \
-                     de l'interface: %s", interface)
+                     de l'interface: %s", i)
                 logger.warning('Code Erreur : %s', e)
     return False
 
@@ -165,9 +166,12 @@ def procces_update(update):
     if user == 'root':
         userpath = '/'
     targetdir = os.path.join(userpath, chemin)
+    if debug:
+        msg = "{}: Debug: {}".format(
+            action, targetdir)
+        return (2, msg)
 
     if action in ('ADDFILE', 'EXTRACT'):
-
         try:
             # Si le dossier n'existe pas, le créer
             if not os.path.isdir(targetdir):
@@ -178,7 +182,6 @@ def procces_update(update):
             while os.stat(path).st_uid != uid:
                 os.chown(path, uid, guid)
                 path = os.path.dirname(path)
-
         except Exception:
             msg = "{}: Erreur de création du chemin: {}".format(
                 action, targetdir)
@@ -223,7 +226,7 @@ def procces_update(update):
                 cmd = os.path.join(targetdir, media_name)
                 os.chmod(cmd, 35309)
             elif action == 'EXTRACT':
-                dirname = os.path.basename(media_name).split('.')[0]
+                dirname = os.path.basename(media_name).split('-')[0]
                 cmd = os.path.join(targetdir, os.path.join(dirname, 'run.sh'))
             os.system(cmd)
 
@@ -239,11 +242,33 @@ def procces_update(update):
         except Exception:
             return (2, "{}: Erreur d\'exécution".format(action))
 
+    if postact == 'RELOADFLASK':
+        sudoer = ('', 'sudo ')[user == 'root']
+        try:
+            os.system('{}supervisorctl reload interface'.format(sudoer))
+        except Exception:
+            return (2, "{}: Erreur d\'exécution".format(action))
+
+    if postact == 'RELOADIOMANAGE':
+        sudoer = ('', 'sudo ')[user == 'root']
+        try:
+            os.system('{}supervisorctl reload iomanage'.format(sudoer))
+        except Exception:
+            return (2, "{}: Erreur d\'exécution".format(action))
+
+    if postact == 'RELOADCHROME':
+        sudoer = ('', 'sudo ')[user == 'root']
+        try:
+            os.system('{}service lightdm restart'.format(sudoer))
+        except Exception:
+            return (2, "{}: Erreur d\'exécution".format(action))
+
     if postact == 'REFRESH':
         img = os.path.join(targetdir, media_name)
         try:
-            cmd = 'export DISPLAY=:0 && export XAUTHORITY=/home/{}/.Xauthority && export XDG_RUNTIME_DIR=/run/user/1000 && pcmanfm -w {} && export DISPLAY='.format(
-                user, img)
+            cmd = 'export DISPLAY=:0 && export XAUTHORITY=/home/{}/.Xauthority \
+            && export XDG_RUNTIME_DIR=/run/user/1000 && pcmanfm \
+             -w {} && export DISPLAY='.format(user, img)
             os.system(cmd)
         except Exception:
             return (2, "{}: Erreur d\'exécution".format(action))
@@ -255,41 +280,54 @@ def procces_update(update):
 
 def synchronise(totem, directory):
     running('run')
-    options = '-vurL --delete-after --exclude=result.db \
-              --delete-excluded --chown edkuser'
+    options = ('-urLog --delete-after --exclude=result.db '
+               '--delete-excluded --usermap=*:edkuser --groupmap=*:pi')
     commande = "/usr/bin/rsync {} debian@54.38.42.84::totems/{}/ \
                  {}/".format(options, totem, directory)
+    print(commande)
     runcmd(commande, running('pause'))
 
 
 def createlink(dirtolink):
     listd = [d for d in os.listdir(dirtolink)]
-    print(listd)
     for d in listd:
-        if not os.path.exists(opj(kioskdir, d)):
-            os.mkdir(opj(kioskdir, d))
-            os.chown(opj(kioskdir, d), edkuid, piguid)
+        verifdirexist(opj(kioskdir, d))
         listf = [opj(d, f)
                  for f in os.listdir(
             opj(dirtolink, d))]
         for f in listf:
             if not os.path.exists(opj(kioskdir, f)):
-                print ('createlink', bool(
-                    os.path.exists(opj(kioskdir, f))))
                 os.symlink(opj(dirtolink, f),
                            opj(kioskdir, f))
 
 
+def getlistdir(dir):
+    if os.path.isdir(dir):
+        return [d for d in os.listdir(dir)].sort()
+    return []
+
+
+def verifdirexist(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+        while 1:
+            if os.path.basename(os.path.dirname(path)) == 'home':
+                break
+            os.chown(path, edkuid, piguid)
+            path = os.path.dirname(path)
+
+
 def main(macadress):
     device = getdevice(macadress)
-    print(device)
     device_id = device.get('id', None)
     totem = device.get('totem', None)
     master = device.get('master', None)
     logger.info("device_id: %s", str(device_id))
     if device_id:
         updates = getlistupdate(device_id)
-        if updates:
+        if device.get('shortName') == 'Fauxpourtest':
+            print(updates)
+        elif updates:
             for upd in updates:
                 update = getupdate(upd['action'])
                 u, msg = procces_update(update)
@@ -300,8 +338,8 @@ def main(macadress):
                 updatestatus(device_id, upd['action'], u)
         else:
             logger.info("Pas de mise à jour pour le device")
-        print(getrunning())
-        listplugs = [d for d in os.listdir(opj(kioskdir, 'ukplugs'))].sort()
+        listplugs = getlistdir(opj(kioskdir, 'ukplugs'))
+        os.listdir
         if totem and getrunning() != 'run':
             synchronise(totem, totemdir)
             createlink(totemdir)
@@ -309,8 +347,7 @@ def main(macadress):
             synchronise(master, masterdir)
             createlink(masterdir)
         runcmd("/usr/bin/find {} -xtype l -delete".format(kioskdir))
-        nlplugs = [d for d in os.listdir(opj(kioskdir, 'ukplugs'))].sort()
-        if listplugs != nlplugs:
+        if listplugs != getlistdir(opj(kioskdir, 'ukplugs')):
             runcmd("supervisorctl restart interface")
 
     else:
@@ -318,18 +355,35 @@ def main(macadress):
 
 
 # mise a jour des anciens iomanage
-if not os.path.exists(totemdir):
+if not os.path.exists(totemdir) and os.path.exists(kioskdir):
     os.rename(kioskdir, totemdir)
-    os.mkdir(kioskdir)
-    os.chown(kioskdir, edkuid, piguid)
-    os.mkdir(opj(kioskdir, 'ukplugs'))
-    os.chown(opj(kioskdir, 'ukplugs'), edkuid, piguid)
-    running('pause')
+verifdirexist(kioskdir)
+verifdirexist(totemdir)
+verifdirexist(masterdir)
+running('pause')
 
 
 if __name__ == "__main__":
-    macadress = getmac()
-    x = 0
-    while True:
+    if 'debug' in sys.argv:
+        debug = True
+        print("Mode debug")
+    if 'test' in sys.argv:
+        print("Lancement des tests")
+        debug = True
+        macadress = '00:00:00:00:00:00'
+        device = getdevice(macadress)
+        if device['shortName'] != 'Fauxpourtest':
+            print('Erreur Shortname')
+        if device['id'] != 98:
+            print('Erreur id')
+        kioskdir = '{}/.kioskfiles'.format('/tmp')
+        totemdir = '{}/.totemfiles'.format('/tmp')
+        masterdir = '{}/.masterfiles'.format('/tmp')
         main(macadress)
-        sleep(60)
+        exit()
+    else:
+        macadress = getmac()
+        x = 0
+        while True:
+            main(macadress)
+            sleep(60)
