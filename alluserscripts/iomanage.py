@@ -299,7 +299,7 @@ def createlink(dirtolink):
             if not os.path.exists(opj(kioskdir, f)):
                 os.symlink(opj(dirtolink, f),
                            opj(kioskdir, f))
-                os.chown(opj(kioskdir, f), edkuid, piguid)
+                os.lchown(opj(kioskdir, f), edkuid, piguid)
 
 
 def getlistdir(dir):
