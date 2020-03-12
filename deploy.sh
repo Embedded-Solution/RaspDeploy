@@ -147,7 +147,7 @@ done
 
 ##################### FLASKINTERFACE #######################
 
-apt install python3-flask python3-flask-sqlalchemy gunicorn3 python3-bluez python3-alsaaudio python3-pexpect python3-pymediainfo python3-evdev -y
+apt install python3-flask python3-flask-sqlalchemy gunicorn3 python3-bluez python3-alsaaudio python3-pexpect python3-pymediainfo python3-evdev xdotool -y
 pip3 install timeloop youtube-dl
 git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/flaskinterface.git
 rm -R flaskinterface/.git
@@ -174,11 +174,10 @@ if [ $KRYPT ]; then
 fi
 
 # Redémarage des services liés
-/usr/bin/supervisorctl restart interface
-/usr/bin/supervisorctl restart iomanage
+/usr/bin/supervisorctl reload
 
 
 # Fermeture et nettoyage des fichiers de déploiement
-cd ~/
+cd ..
 
 # Reboot
