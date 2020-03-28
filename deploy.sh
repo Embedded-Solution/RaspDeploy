@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ##################################################################
 #                                                                #
@@ -10,23 +10,33 @@
 
 VERSION="master"
 # parser les arguments
-while getopts v:cku option; do
+while getopts v:ckud option; do
 	case "${option}"
 		in
 		v) VERSION=${OPTARG};;
 		c) CLEAN=1;;
     k) KRYPT=1;;
     u) UPGRADE=1;;
+    d) DEV=1;;
 	esac
 done
 
+# Variables
 KUSER="edkuser"
 GRPSADMIN="adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio,bluetooth"
 GRPSREST="dialout,cdrom,audio,video,games,users,input,netdev,gpio,bluetooth"
 INFOS=$(curl http://deploy.ioconstellation.com/infos/infos.txt)
 eval $INFOS
+GITURL=$(git config --get remote.origin.url)
+GITURL="${GITURL%/*}"
+
 
 echo "Version = " $VERSION
+
+# Installation des outil de dev si DEV=1
+if [ $DEV ]; then
+  /bin/sh ./devconf.sh
+fi
 
 TESTMODEL=$( cat /proc/device-tree/model | cut -c-22 )
 echo $TESTMODEL
@@ -57,26 +67,11 @@ apt install  accountsservice unclutter matchbox feh ecryptfs-utils libreoffice l
 
 # Suppression des paquets inutiles
 apt remove geany geany-common youtube-dl -y
-
  
-# Installation de anydesk
-if ! dpkg -s anydesk >/dev/null 2>&1; then
-    apt install libpango1.0-0 libegl1-mesa -y
-    wget https://download.anydesk.com/rpi/anydesk_5.1.1-1_armhf.deb
-    dpkg -i anydesk_5.1.1-1_armhf.deb
-    rm anydesk_5.1.1-1_armhf.deb
-    echo 'ad.security.interactive_access=0' | sudo tee -a /etc/anydesk/system.conf
-    echo 'ad.security.file_manager=false' | sudo tee -a /etc/anydesk/system.conf
-    echo 'ad.security.clipboard.files=false' | sudo tee -a /etc/anydesk/system.conf
-    echo 'ad.security.hear_audio=false' | sudo tee -a /etc/anydesk/system.conf
-    sudo systemctl daemon-reload
-fi
- 
-
 # ######### SCRIPTS ET MODIFICATION SYSTEM (LOOK, ETC...)
 
 # Changer le hostname
-sudo sed -i "s/raspberrypi/easydigitalkey/g" /etc/hostname
+/bin/sed -i "s/raspberrypi/easydigitalkey/g" /etc/hostname
 
 # Installation des scripts utilisateurs et système
 cp -f ./alluserscripts/* /usr/local/sbin
@@ -85,10 +80,10 @@ cp -f ./alluserscripts/* /usr/local/sbin
 cp -Rf ./usersshare/* /usr/share
 
 # Annuler la demande de confirmation des launchers bureau
-sudo sed -i '/\[config\]/a quick_exec=1' /etc/xdg/libfm/libfm.conf
+/bin/sed -i '/\[config\]/a quick_exec=1' /etc/xdg/libfm/libfm.conf
 
 # Passer la mémoire swap à 500M
-sudo sed -i 's/SWAPSIZE=100/SWAPSIZE=500/g' /etc/dphys-swapfile
+/bin/sed -i 's/SWAPSIZE=100/SWAPSIZE=500/g' /etc/dphys-swapfile
 
 
 ########## CRÉATION ET CONFIGURATION DES UTILISATEURS ###########
@@ -108,21 +103,24 @@ echo "edkstf ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/020_edkstf-nopasswd
 echo "edkuser ALL=(ALL) NOPASSWD: /sbin/reboot,/sbin/shutdown,/usr/sbin/service,/sbin/ifconfig,/usr/sbin/rfkill,/usr/bin/anydesk" > /etc/sudoers.d/020_edkuser-nopasswd
 
 # Changer l'utilisateur "par defaut"
-sudo sed -i "s/autologin-user=pi/autologin-user=edkuser/g" /etc/lightdm/lightdm.conf
+/bin/sed -i "s/autologin-user=pi/autologin-user=edkuser/g" /etc/lightdm/lightdm.conf
 
 # Installation du plugin 'totemhome'
-git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/totemhome.git
-rm -R totemhome/.git
-mkdir -p ./alluserhome/.config/chromium/Extensionsio
-cp -Rf totemhome ./alluserhome/.config/chromium/Extensionsio
+rm -R totemhome
+git clone -b $VERSION "$GITURL"/totemhome.git
+if [ ! $DEV ]; then
+  rm -R totemhome/.git
+fi
+mkdir -p ./"$KUSER"home/.config/chromium/Extensionsio
+cp -Rf totemhome ./"$KUSER"home/.config/chromium/Extensionsio
 
 # Installation du plugin virtualkeyboard modifié
-cp -Rf ./chromium/vkio ./alluserhome/.config/chromium/Extensionsio
+cp -Rf ./chromium/vkio ./"$KUSER"home/.config/chromium/Extensionsio
 
 # Copier les fichiers/dossiers home par defaut des utilisateurs
 for luser in pi edkuser edkstf
 do 
-	cp -Rf ./alluserhome -T /home/$luser
+	cp -Rf ./"$luser"home -T /home/$luser
 	chown -R $luser:$luser /home/$luser
 done
 
@@ -147,19 +145,34 @@ done
 
 ##################### FLASKINTERFACE #######################
 
-apt install python3-flask python3-flask-sqlalchemy gunicorn3 python3-bluez python3-alsaaudio python3-pexpect python3-pymediainfo python3-evdev xdotool -y
-pip3 install timeloop youtube-dl
-git clone -b $VERSION http://deploy.ioconstellation.com/iostaff/flaskinterface.git
-rm -R flaskinterface/.git
-cp -Rf flaskinterface /opt
-chown -R $KUSER:$KUSER /opt/flaskinterface
-sudo sed -i '/^ExecStart/ s/$/ plugin=a2dp/' /lib/systemd/system/bluetooth.service
 
+
+rm -r flaskinterface
+git clone -b $VERSION "$GITURL"/flaskinterface.git
+if [ ! $DEV ]; then
+  rm -R flaskinterface/.git
+fi
+cp -Rf flaskinterface /opt
+/bin/sh flaskinterface/run.sh
 
 # Copier les fichiers de boot et de splash
 
 cp ./boot/$MODEL/* /boot/
 cp -fv ./divers/splash.png /usr/share/plymouth/themes/pix/splash.png
+
+ 
+# Installation de anydesk
+if ! dpkg -s anydesk >/dev/null 2>&1; then
+    apt install libpango1.0-0 libegl1-mesa -y
+    wget https://download.anydesk.com/rpi/anydesk_5.1.1-1_armhf.deb
+    dpkg -i anydesk_5.1.1-1_armhf.deb
+    rm anydesk_5.1.1-1_armhf.deb
+    echo 'ad.security.interactive_access=0' | sudo tee -a /etc/anydesk/system.conf
+    echo 'ad.security.file_manager=false' | sudo tee -a /etc/anydesk/system.conf
+    echo 'ad.security.clipboard.files=false' | sudo tee -a /etc/anydesk/system.conf
+    echo 'ad.security.hear_audio=false' | sudo tee -a /etc/anydesk/system.conf
+    sudo systemctl daemon-reload
+fi
 
 # Nettoyer le cache apt
 apt autoremove -y
