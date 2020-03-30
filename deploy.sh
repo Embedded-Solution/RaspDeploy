@@ -110,6 +110,9 @@ do
 	chown -R $luser:$luser /home/$luser
 done
 
+# Modification des droits sur clé ssh
+chmod 600 /home/"$KUSER"/.ssh/rs_rsa
+
 ############  Réseau  ######################
 apt install nginx bluez-tools -y
 
