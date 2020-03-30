@@ -135,17 +135,17 @@ rsync -a ./chromium/policies/ /etc/chromium-browser/policies/managed/
 
 # Installation du plugin 'totemhome'
 rm -r /home/"$KUSER"/.config/chromium/Extensionsio/totemhome
-git clone -b $VERSION "$GITURL"/totemhome.git /home/"$KUSER"/.config/chromium/Extensionsio/
+git clone -b $VERSION "$GITURL"/totemhome.git /home/"$KUSER"/.config/chromium/Extensionsio/totemhome
 
  
 ##################### Supervisor #######################
-rsync -a ./supervisor/ /etc/supervisor/conf.d/ 
+
 
  
 ##################### Flaskinterface #######################
 
 rm -r /opt/flaskinterface
-git clone -b "$VERSION" "$GITURL"/flaskinterface.git /opt/
+git clone -b "$VERSION" "$GITURL"/flaskinterface.git /opt/flaskinterface
 /bin/sh /opt/flaskinterface/run.sh
 
  
@@ -190,6 +190,7 @@ else
   rm -R /opt/flaskinterface/.git
   rm -R /home/"$KUSER"/.config/chromium/Extensionsio/totemhome/.git
   ln -sf /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
+  rsync -a ./supervisor/ /etc/supervisor/conf.d/ 
 fi
 
 # Nettoyer le cache apt
@@ -197,8 +198,8 @@ apt autoremove -y
 apt autoclean
 
 # Redémarage des services liés
-/usr/bin/supervisorctl reload
 service nginx restart
+/usr/bin/supervisorctl reload
 
 
 # Fermeture et nettoyage des fichiers de déploiement
