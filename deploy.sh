@@ -115,7 +115,7 @@ apt install nginx bluez-tools -y
 
 rsync -av ./reseau/nginx/ /etc/nginx/sites-available/
 
-rsync -av ./bluetoothnet/systemd/ /etc/systemd/
+rsync -av ./reseau/systemd/ /etc/systemd/
 systemctl enable systemd-networkd
 systemctl enable bt-agent
 systemctl enable bt-network
@@ -131,15 +131,15 @@ bt-adapter --set Discoverable 1
 cp ./chromium/libwidevinecdm.so /usr/lib/chromium-browser
 
 # Installation des plugins Chromium
-rsync -av ./chromium/policies/ /etc/chromium-browser/policies/managed/
+rsync -a ./chromium/policies/ /etc/chromium-browser/policies/managed/
 
 # Installation du plugin 'totemhome'
-rm -r "$GITURL"/totemhome.git /home/"$KUSER"/.config/chromium/Extensionsio/totemhome
+rm -r /home/"$KUSER"/.config/chromium/Extensionsio/totemhome
 git clone -b $VERSION "$GITURL"/totemhome.git /home/"$KUSER"/.config/chromium/Extensionsio/
 
  
 ##################### Supervisor #######################
-rsync -av ./supervisor/ /etc/supervisor/conf.d/ 
+rsync -a ./supervisor/ /etc/supervisor/conf.d/ 
 
  
 ##################### Flaskinterface #######################
@@ -184,7 +184,7 @@ fi
 if [ $DEV ]
 then
   /bin/sh ./devconf.sh
-  /etc/supervisor/conf.d/interface.conf
+  rm /etc/supervisor/conf.d/interface.conf
   ln -sf /etc/nginx/sites-enabled/default /etc/nginx/sites-available/debug
 else
   rm -R /opt/flaskinterface/.git
