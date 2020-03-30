@@ -1,0 +1,15 @@
+upstream backend_flask{
+    server 127.0.0.1:8080;
+}
+
+server {
+    listen    80;
+    allow  172.20.1.1/24;
+    # deny   all;
+    # server_name    www.example.com example.com;
+    location / {
+        include proxy_params;
+        proxy_pass http://backend_flask;
+    }
+}
+

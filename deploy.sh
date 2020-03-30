@@ -15,13 +15,14 @@ while getopts v:ckud option; do
 		in
 		v) VERSION=${OPTARG};;
 		c) CLEAN=1;;
-    k) KRYPT=1;;
-    u) UPGRADE=1;;
-    d) DEV=1;;
+	    k) KRYPT=1;;
+	    u) UPGRADE=1;;
+	    d) DEV=1;;
 	esac
 done
 
 # Variables
+CURENTDIR=$PWD
 KUSER="edkuser"
 GRPSADMIN="adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio,bluetooth"
 GRPSREST="dialout,cdrom,audio,video,games,users,input,netdev,gpio,bluetooth"
@@ -30,16 +31,12 @@ eval $INFOS
 GITURL=$(git config --get remote.origin.url)
 GITURL="${GITURL%/*}"
 
+eval "$INFOS"
 
-echo "Version = " $VERSION
-
-# Installation des outil de dev si DEV=1
-if [ $DEV ]; then
-  /bin/sh ./devconf.sh
-fi
+echo "Version = " "$VERSION"
 
 TESTMODEL=$( cat /proc/device-tree/model | cut -c-22 )
-echo $TESTMODEL
+echo "$TESTMODEL"
 
 if test "$TESTMODEL" = "Raspberry Pi 3 Model A"; then
     MODEL="aplus"
@@ -63,7 +60,7 @@ if [ $UPGRADE ]; then
 fi
 
 # Installation des paquest utiles
-apt install  accountsservice unclutter matchbox feh ecryptfs-utils libreoffice libreoffice-l10n-fr -y
+apt install  accountsservice unclutter matchbox feh ecryptfs-utils libreoffice libreoffice-l10n-fr supervisor -y
 
 # Suppression des paquets inutiles
 apt remove geany geany-common youtube-dl -y
@@ -72,6 +69,7 @@ apt remove geany geany-common youtube-dl -y
 
 # Changer le hostname
 /bin/sed -i "s/raspberrypi/easydigitalkey/g" /etc/hostname
+sudo sed -i "s/raspberrypi/easydigitalkey/g" /etc/hosts
 
 # Installation des scripts utilisateurs et système
 cp -f ./alluserscripts/* /usr/local/sbin
@@ -91,11 +89,11 @@ cp -Rf ./usersshare/* /usr/share
 # Créations des utilisateurs
 if ! id edkuser > /dev/null 2>&1; then
   echo "création de l'utilisateur edkuser"
-  useradd -d /home/edkuser -G $GRPSREST -m -p $(echo $EDKPW | openssl passwd -1 -stdin) edkuser
+  useradd -d /home/edkuser -G $GRPSREST -m -p "$(echo "$EDKPW" | openssl passwd -1 -stdin)" edkuser
 fi
 if ! id edkstf > /dev/null 2>&1; then
   echo "création de l'utilisateur edkstf"
-  useradd -d /home/edkstf -G $GRPSADMIN -m -p $(echo $EDKSPW | openssl passwd -1 -stdin) edkstf
+  useradd -d /home/edkstf -G $GRPSADMIN -m -p "$(echo "$EDKSPW" | openssl passwd -1 -stdin)" edkstf
 fi
 
 # Modifier les droits sudoer
@@ -105,24 +103,26 @@ echo "edkuser ALL=(ALL) NOPASSWD: /sbin/reboot,/sbin/shutdown,/usr/sbin/service,
 # Changer l'utilisateur "par defaut"
 /bin/sed -i "s/autologin-user=pi/autologin-user=edkuser/g" /etc/lightdm/lightdm.conf
 
-# Installation du plugin 'totemhome'
-rm -R totemhome
-git clone -b $VERSION "$GITURL"/totemhome.git
-if [ ! $DEV ]; then
-  rm -R totemhome/.git
-fi
-mkdir -p ./"$KUSER"home/.config/chromium/Extensionsio
-cp -Rf totemhome ./"$KUSER"home/.config/chromium/Extensionsio
-
-# Installation du plugin virtualkeyboard modifié
-cp -Rf ./chromium/vkio ./"$KUSER"home/.config/chromium/Extensionsio
-
 # Copier les fichiers/dossiers home par defaut des utilisateurs
 for luser in pi edkuser edkstf
 do 
 	cp -Rf ./"$luser"home -T /home/$luser
 	chown -R $luser:$luser /home/$luser
 done
+
+############  Réseau  ######################
+apt install nginx bluez-tools -y
+
+rsync -av ./reseau/nginx/ /etc/nginx/sites-available/
+
+rsync -av ./bluetoothnet/systemd/ /etc/systemd/
+systemctl enable systemd-networkd
+systemctl enable bt-agent
+systemctl enable bt-network
+systemctl start systemd-networkd
+systemctl start bt-agent
+systemctl start bt-network
+bt-adapter --set Discoverable 1
 
 
 ##################### CHROMIUM #######################
@@ -131,37 +131,32 @@ done
 cp ./chromium/libwidevinecdm.so /usr/lib/chromium-browser
 
 # Installation des plugins Chromium
-for f in ./chromium/policies/*.json; do
-    echo 'Installation des plugins ' $f
-    cp $f  /etc/chromium-browser/policies/managed
-done
+rsync -av ./chromium/policies/ /etc/chromium-browser/policies/managed/
 
-# Installation et configuration de supervisor
-apt install supervisor -y
-for f in ./supervisor/*.conf; do
-    echo 'Copie de ' $f ' dans /etc/supervisor/conf.d'
-    cp $f  /etc/supervisor/conf.d/
-done
+# Installation du plugin 'totemhome'
+rm -r "$GITURL"/totemhome.git /home/"$KUSER"/.config/chromium/Extensionsio/totemhome
+git clone -b $VERSION "$GITURL"/totemhome.git /home/"$KUSER"/.config/chromium/Extensionsio/
 
-##################### FLASKINTERFACE #######################
+ 
+##################### Supervisor #######################
+rsync -av ./supervisor/ /etc/supervisor/conf.d/ 
 
+ 
+##################### Flaskinterface #######################
 
+rm -r /opt/flaskinterface
+git clone -b "$VERSION" "$GITURL"/flaskinterface.git /opt/
+/bin/sh /opt/flaskinterface/run.sh
 
-rm -r flaskinterface
-git clone -b $VERSION "$GITURL"/flaskinterface.git
-if [ ! $DEV ]; then
-  rm -R flaskinterface/.git
-fi
-cp -Rf flaskinterface /opt
-/bin/sh flaskinterface/run.sh
-
-# Copier les fichiers de boot et de splash
+ 
+##################### Boot #######################
 
 cp ./boot/$MODEL/* /boot/
 cp -fv ./divers/splash.png /usr/share/plymouth/themes/pix/splash.png
 
  
-# Installation de anydesk
+##################### Anydesk #######################
+
 if ! dpkg -s anydesk >/dev/null 2>&1; then
     apt install libpango1.0-0 libegl1-mesa -y
     wget https://download.anydesk.com/rpi/anydesk_5.1.1-1_armhf.deb
@@ -174,9 +169,7 @@ if ! dpkg -s anydesk >/dev/null 2>&1; then
     sudo systemctl daemon-reload
 fi
 
-# Nettoyer le cache apt
-apt autoremove -y
-apt autoclean
+##################### Krypto #######################
 
 if [ $KRYPT ]; then
 # Création du service d'encryption de kioskfile
@@ -186,11 +179,29 @@ if [ $KRYPT ]; then
   sudo /usr/local/sbin/mountedk.sh.x
 fi
 
+
+# configuration pour le développement
+if [ $DEV ]
+then
+  /bin/sh ./devconf.sh
+  /etc/supervisor/conf.d/interface.conf
+  ln -sf /etc/nginx/sites-enabled/default /etc/nginx/sites-available/debug
+else
+  rm -R /opt/flaskinterface/.git
+  rm -R /home/"$KUSER"/.config/chromium/Extensionsio/totemhome/.git
+  ln -sf /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
+fi
+
+# Nettoyer le cache apt
+apt autoremove -y
+apt autoclean
+
 # Redémarage des services liés
 /usr/bin/supervisorctl reload
+service nginx restart
 
 
 # Fermeture et nettoyage des fichiers de déploiement
-cd ..
+cd "$CURENTDIR"/..
 
 # Reboot
