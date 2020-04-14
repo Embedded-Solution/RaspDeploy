@@ -24,6 +24,9 @@ done
 # Variables
 CURENTDIR=$PWD
 KUSER="edkuser"
+PIPWD="edkuser"
+EDKPW="edkuser"
+NEWHOSTNAME=easydigitalkey
 GRPSADMIN="adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio,bluetooth"
 GRPSREST="dialout,cdrom,audio,video,games,users,input,netdev,gpio,bluetooth"
 INFOS=$(curl http://deploy.ioconstellation.com/infos/infos.txt)
