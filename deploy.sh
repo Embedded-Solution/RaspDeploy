@@ -15,7 +15,6 @@ while getopts v:ckud option; do
 		in
 		v) VERSION=${OPTARG};;
 		c) CLEAN=1;;
-	    k) KRYPT=1;;
 	    u) UPGRADE=1;;
 	    d) DEV=1;;
 	esac
@@ -173,16 +172,6 @@ if ! dpkg -s anydesk >/dev/null 2>&1; then
     echo 'ad.security.clipboard.files=false' | sudo tee -a /etc/anydesk/system.conf
     echo 'ad.security.hear_audio=false' | sudo tee -a /etc/anydesk/system.conf
     sudo systemctl daemon-reload
-fi
-
-##################### Krypto #######################
-
-if [ $KRYPT ]; then
-# Création du service d'encryption de kioskfile
-  cp -Rf ./services/* /etc/systemd/system
-  sudo systemctl enable ioconst.service
-  sudo systemctl start ioconst.service
-  sudo /usr/local/sbin/mountedk.sh.x
 fi
 
 
