@@ -43,7 +43,7 @@ echo "$TESTMODEL"
 if test "$TESTMODEL" = "Raspberry Pi 3 Model A"; then
     MODEL="aplus"
 else
-    MODEL="autres"
+    MODEL="autre"
 fi
 
 if [ $CLEAN ]; then
