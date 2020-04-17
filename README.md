@@ -19,7 +19,7 @@ debug version (-d) :
 start serveur in debug mode :
 
 pi@easydigitalkey:/opt $ su edkuser
-Mot de passe :mmphygitaledk
+Mot de passe :edkuser
 edkuser@easydigitalkey:/opt $ cd flaskinterface/
 edkuser@easydigitalkey:/opt/flaskinterface $ python3 server.py
 
@@ -35,7 +35,7 @@ To delete the old raspdeploy file in case of error
 #### Upgrade: -u
 Adding -u to the sh deploy.sh command activates package upgrades at installation time.
 
-`cd raspdeploy/ && sudo sh deploy.sh -c [-v version]`
+`cd raspdeploy/ && sudo sh deploy.sh -u [-v version]`
 
 #### Cleaning: -c
 Adding -c to the sh deploy.sh command removes the edkuser and its folder as well as the / opt / flaskinterface folder before deployment.
