@@ -115,12 +115,14 @@ done
 # Modification des droits sur clé ssh
 chmod 600 /home/"$KUSER"/.ssh/rs_rsa
 
-############  Réseau  ######################
+############  Réseau & Bluetooth ######################
 apt install nginx bluez-tools -y
 
-rsync -av ./reseau/nginx/ /etc/nginx/sites-available/
+mv /lib/systemd/system/bluetooth.service /lib/systemd/system/bluetooth.service.orig
 
+rsync -av ./reseau/nginx/ /etc/nginx/sites-available/
 rsync -av ./reseau/systemd/ /etc/systemd/
+
 systemctl enable systemd-networkd
 systemctl enable bt-agent
 systemctl enable bt-network
@@ -128,6 +130,8 @@ systemctl start systemd-networkd
 systemctl start bt-agent
 systemctl start bt-network
 bt-adapter --set Discoverable 1
+
+sed -i -e "s/^#AutoEnable.*$/AutoEnable=true/g" /etc/bluetooth/main.conf
 
 
 ##################### CHROMIUM #######################
