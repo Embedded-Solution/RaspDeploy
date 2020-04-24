@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Kiosk
+Comment=Lancer le kiosk
+Exec=bash /usr/local/sbin/openkiosk.sh
+Icon=/usr/share/images/k-icon.png
+Categories=Application
+Terminal=false
+
+

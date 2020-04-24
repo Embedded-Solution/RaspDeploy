@@ -7,7 +7,7 @@ master :
  
 `git clone -b testing https://git.ioconstellation.com/iostaff/raspdeploy.git`
 
-`cd raspdeploy/ && sudo sh deploy.sh -v testing`
+`cd raspdeploy && sudo ./deploy.sh -v testing`
 
 
 debug version (-d) :

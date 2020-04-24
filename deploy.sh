@@ -118,7 +118,7 @@ chmod 600 /home/"$KUSER"/.ssh/rs_rsa
 ############  Réseau & Bluetooth ######################
 apt install nginx bluez-tools -y
 
-mv /lib/systemd/system/bluetooth.service /lib/systemd/system/bluetooth.service.orig
+# mv /lib/systemd/system/bluetooth.service /lib/systemd/system/bluetooth.service.orig
 
 rsync -av ./reseau/nginx/ /etc/nginx/sites-available/
 rsync -av ./reseau/systemd/ /etc/systemd/
@@ -131,8 +131,7 @@ systemctl start bt-agent
 systemctl start bt-network
 bt-adapter --set Discoverable 1
 
-sed -i -e "s/^#AutoEnable.*$/AutoEnable=true/g" /etc/bluetooth/main.conf
-
+# sed -i -e "s/^#AutoEnable.*$/AutoEnable=true/g" /etc/bluetooth/main.conf
 
 ##################### CHROMIUM #######################
 
@@ -163,33 +162,16 @@ git clone -b "$VERSION" "$GITURL"/flaskinterface.git /opt/flaskinterface
 cp ./boot/$MODEL/* /boot/
 cp -fv ./divers/splash.png /usr/share/plymouth/themes/pix/splash.png
 
- 
-##################### Anydesk #######################
-
-if ! dpkg -s anydesk >/dev/null 2>&1; then
-    apt install libpango1.0-0 libegl1-mesa -y
-    wget https://download.anydesk.com/rpi/anydesk_5.1.1-1_armhf.deb
-    dpkg -i anydesk_5.1.1-1_armhf.deb
-    rm anydesk_5.1.1-1_armhf.deb
-    echo 'ad.security.interactive_access=0' | sudo tee -a /etc/anydesk/system.conf
-    echo 'ad.security.file_manager=false' | sudo tee -a /etc/anydesk/system.conf
-    echo 'ad.security.clipboard.files=false' | sudo tee -a /etc/anydesk/system.conf
-    echo 'ad.security.hear_audio=false' | sudo tee -a /etc/anydesk/system.conf
-    sudo systemctl daemon-reload
-fi
-
 
 # configuration pour le développement
-if [ $DEV ]
-then
+if [ $DEV ]; then
   /bin/sh ./devconf.sh
-  rm /etc/supervisor/conf.d/interface.conf
   ln -sf /etc/nginx/sites-enabled/default /etc/nginx/sites-available/debug
 else
   rm -R /opt/flaskinterface/.git
   rm -R /home/"$KUSER"/.config/chromium/Extensionsio/totemhome/.git
   ln -sf /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
-  rsync -a ./supervisor/ /etc/supervisor/conf.d/ 
+  cp -f ./supervisor/interface.conf /etc/supervisor/conf.d/ 
 fi
 
 # Nettoyer le cache apt
