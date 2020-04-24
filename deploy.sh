@@ -118,8 +118,6 @@ chmod 600 /home/"$KUSER"/.ssh/rs_rsa
 ############  Réseau & Bluetooth ######################
 apt install nginx bluez-tools -y
 
-mv /lib/systemd/system/bluetooth.service /lib/systemd/system/bluetooth.service.orig
-
 rsync -av ./reseau/nginx/ /etc/nginx/sites-available/
 rsync -av ./reseau/systemd/ /etc/systemd/
 
@@ -130,6 +128,7 @@ systemctl start systemd-networkd
 systemctl start bt-agent
 systemctl start bt-network
 bt-adapter --set Discoverable 1
+bt-adapter --set DiscoverableTimeout 0
 
 sed -i -e "s/^#AutoEnable.*$/AutoEnable=true/g" /etc/bluetooth/main.conf
 
