@@ -32,11 +32,11 @@ INFOS=$(curl http://deploy.ioconstellation.com/infos/infos.txt)
 eval $INFOS
 GITURL=$(git config --get remote.origin.url)
 GITURL="${GITURL%/*}"
-
 eval "$INFOS"
 
 echo "Version = " "$VERSION"
 
+# Vérification du modèle
 TESTMODEL=$( cat /proc/device-tree/model | cut -c-22 )
 echo "$TESTMODEL"
 
@@ -46,6 +46,8 @@ else
     MODEL="autre"
 fi
 
+
+# Nettoyage de edkuser et flaskinterface si option -c
 if [ $CLEAN ]; then
 	echo "Suppression de l'utilisateur 'edkuser' et du dossier 'flaskinterface'"
   userdel -r -f edkuser
@@ -55,7 +57,7 @@ fi
 
 ############## PAQUETS, BIBLIOTEQUE, ETC, #####################
 
-# Mise à jour
+# Mise à jour si option -u
 apt update
 if [ $UPGRADE ]; then 
   apt upgrade -y
@@ -65,7 +67,7 @@ fi
 apt install  accountsservice unclutter matchbox feh ecryptfs-utils libreoffice libreoffice-l10n-fr supervisor -y
 
 # Suppression des paquets inutiles
-apt remove geany geany-common youtube-dl -y
+apt remove geany geany-common -y
  
 # ######### SCRIPTS ET MODIFICATION SYSTEM (LOOK, ETC...)
 
