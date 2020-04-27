@@ -1,4 +1,16 @@
-# Quick installation
+# Manual
+
+Here is a quick overview what to do after you downloaded the latest EasyDK img for your rpi
+
+- A + (Bêta) 
+- B + (Bêta) You can activate Open GL
+- B 4 ( Alpha) You can activate Open GL
+
+
+Next update 04/30/2020 - Local server media management
+
+
+## Quick installation
 **Installation need [Raspbian Buster with desktop](https://www.raspberrypi.org/downloads/raspbian/)
 
 ### Versions
