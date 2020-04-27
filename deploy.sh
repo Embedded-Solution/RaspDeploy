@@ -42,9 +42,13 @@ echo "$TESTMODEL"
 
 if test "$TESTMODEL" = "Raspberry Pi 3 Model A"; then
     MODEL="aplus"
+elif test "$TESTMODEL" = "Raspberry Pi 4 Model B"; then
+    MODEL="4modelB"
 else
     MODEL="autre"
 fi
+
+
 
 
 # Nettoyage de edkuser et flaskinterface si option -c
