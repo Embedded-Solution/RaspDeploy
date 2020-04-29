@@ -1,13 +1,15 @@
 # Manual
 
-Here is a quick overview what to do after you downloaded the latest EasyDK img for your rpi
+Here is a quick overview what you need to do for downloaded the latest EasyDK img for your rpi
 
 - A + (Bêta) 
 - B + (Bêta) You can activate Open GL
-- B 4 ( Alpha) You can activate Open GL
+- B 4 (Alpha) You can activate Open GL
 
 
 Next update 04/30/2020 - Local server media management
+Next update 04/30/2020 - Ip information in wifi page
+
 
 
 ## Quick installation
@@ -15,14 +17,21 @@ Next update 04/30/2020 - Local server media management
 
 ### Versions
 
-master :
+**V1 - Master :**
+
+git clone http://deploy.ioconstellation.com/iostaff/raspdeploy.git
+
+cd raspdeploy/ && sudo sh deploy.sh
+
  
+**V2 - Testing :**
+
 `git clone -b testing https://git.ioconstellation.com/iostaff/raspdeploy.git`
 
 `cd raspdeploy && sudo ./deploy.sh -v testing`
 
 
-debug version (-d) :
+**Debug version (-d) :**
 
 `git clone -b testing https://git.ioconstellation.com/iostaff/raspdeploy.git`
 
@@ -30,10 +39,10 @@ debug version (-d) :
 
 start serveur in debug mode :
 
-pi@easydigitalkey:/opt $ su edkuser
-Mot de passe :edkuser
-edkuser@easydigitalkey:/opt $ cd flaskinterface/
-edkuser@easydigitalkey:/opt/flaskinterface $ python3 server.py
+su edkuser
+pass :edkuser
+/opt $ cd flaskinterface/
+/opt/flaskinterface $ python3 server.py
 
 
 
