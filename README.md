@@ -19,7 +19,7 @@ Next update 04/30/2020 - Ip information in wifi page
 
 **V1 - Master :**
 
-git clone http://deploy.ioconstellation.com/iostaff/raspdeploy.git
+git clone https://git.ioconstellation.com/iostaff/raspdeploy.git
 
 cd raspdeploy/ && sudo sh deploy.sh
 
