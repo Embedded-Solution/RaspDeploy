@@ -5,23 +5,18 @@ Here is a quick overview what you need to do for downloaded the latest EasyDK im
 - A + (Bêta) 
 - B + (Bêta) You can activate Open GL
 - B 4 (Alpha) You can activate Open GL
-
-
-Next update 04/30/2020 - Local server media management
-Next update 04/30/2020 - Ip information in wifi page
-
-
-
-## Quick installation
+ 
+## SD card preparation
 **Installation need [Raspbian Buster with desktop](https://www.raspberrypi.org/downloads/raspbian/)
+
 
 ### Versions
 
 **V1 - Master :**
 
-git clone https://git.ioconstellation.com/iostaff/raspdeploy.git
+`git clone https://git.ioconstellation.com/iostaff/raspdeploy.git`
 
-cd raspdeploy && sudo ./deploy.sh
+`cd raspdeploy && sudo ./deploy.sh`
 
  
 **V2 - Testing :**
@@ -37,12 +32,12 @@ cd raspdeploy && sudo ./deploy.sh
 
 `cd raspdeploy/ && sudo sh deploy.sh -v testing -d`
 
-start serveur in debug mode :
+    start serveur in debug mode :
 
-su edkuser
-pass :edkuser
-/opt $ cd flaskinterface/
-/opt/flaskinterface $ python3 server.py
+    su edkuser
+    pass :edkuser
+    /opt $ cd flaskinterface/
+    /opt/flaskinterface $ python3 server.py
 
 
 
