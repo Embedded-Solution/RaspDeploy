@@ -14,28 +14,29 @@ Here is a quick overview what you need to do for downloaded the latest EasyDK im
 
 ### Versions
 
-**V1 - Master :**
+**For All versions    user : edkuser / pass :edkuser**
+
+**V1 - Master : Stable version**
 
 `git clone https://git.ioconstellation.com/iostaff/raspdeploy.git`
 
 `cd raspdeploy && sudo ./deploy.sh`
 
  
-**V2 - Testing :**
+**V2 - Testing : Work in progress, last updates**
 
 `git clone -b testing https://git.ioconstellation.com/iostaff/raspdeploy.git`
 
 `cd raspdeploy && sudo ./deploy.sh -v testing`
 
 
-**Debug version (-d) :**
+**Debug version (-d) : Version to test local development**
 
 `git clone -b testing https://git.ioconstellation.com/iostaff/raspdeploy.git`
 
 `cd raspdeploy/ && sudo sh deploy.sh -v testing -d`
 
-    start serveur in debug mode :
-
+    Commandes to start serveur in debug mode :
     su edkuser
     pass :edkuser
     /opt $ cd flaskinterface/
