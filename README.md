@@ -30,7 +30,7 @@ Here is a quick overview what you need to do for downloaded the latest EasyDK im
 `cd raspdeploy && sudo ./deploy.sh -v testing`
 
 
-**Debug version (-d) : Version to test local development**
+**V3 - Debug version (-d) : Version to test local development**
 
 `git clone -b testing https://git.ioconstellation.com/iostaff/raspdeploy.git`
 
