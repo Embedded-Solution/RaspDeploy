@@ -10,8 +10,8 @@ disable_overscan=1
 #overscan_bottom=19
 
 # Over clock
-arm_freq=700
-gpu_mem=192
+#arm_freq=700
+#gpu_mem=192
 
 #Désactive l’affichage de l’écran d’alerte électrique
 disable_splash=1
