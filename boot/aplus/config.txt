@@ -10,9 +10,9 @@ overscan_top=19
 overscan_bottom=19
 
 # Over clock
-core_freq=400 #Fréquence du GPU
-arm_freq=900 #Fréquence du CPU
-gpu_mem=64
+#core_freq=400 #Fréquence du GPU
+#arm_freq=900 #Fréquence du CPU
+#gpu_mem=64
 
 #Désactive l’affichage de l’écran d’alerte électrique
 disable_splash=1
