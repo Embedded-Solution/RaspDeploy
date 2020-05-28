@@ -12,7 +12,7 @@ Here is a quick overview what you need to do for downloaded the latest EasyDK im
 **Installation need [Raspbian Buster with desktop](https://www.raspberrypi.org/downloads/raspbian/)
 
 
-### Versions
+### Bêta Versions 
 
 **For All versions    user : edkuser / pass :edkuser**
 
