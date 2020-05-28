@@ -62,6 +62,22 @@ Adding -c to the sh deploy.sh command removes the edkuser and its folder as well
 `cd raspdeploy/ && sudo sh deploy.sh -c [-v version]`
 
 
+### Rotate the Raspberry Pi Display Output 7
+
+Step 1 – Edit Config.txt
+
+sudo nano /boot/config.txt
+display_rotate=0
+display_rotate=1
+display_rotate=2
+display_rotate=3
+0 is the normal configuration. 1 is 90 degrees. 2 is 180 degress. 3 is 270 degrees.
+If you are using the Official Raspberry Pi touch screen you can use “lcd_rotate” rather than “display_rotate”.
+
+Save the file by using CTRL-X, Y then ENTER.
+
+Step 2 – RebootThen reboot using : sudo reboot When the Pi restarts the display should be rotated.
+
 
 LICENSE
 AGPL V3 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3 of the License, or (at your option) any later version.
