@@ -7,4 +7,4 @@
 @xset -dpms
 @xset s noblank
 
-@chromium-browser -noerrdialogs --restore-last-session --load-extension=~/.config/chromium/Extensionsio/totemhome,~/.config/chromium/Extensionsio/vkio -kiosk --app=http://127.0.0.1:8080
+@chromium-browser -noerrdialogs --check-for-update-interval=1 --simulate-critical-update --restore-last-session --load-extension=~/.config/chromium/Extensionsio/totemhome,~/.config/chromium/Extensionsio/vkio -kiosk --app=http://127.0.0.1:8080
