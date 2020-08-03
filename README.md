@@ -82,7 +82,7 @@ Save the file by using CTRL-X, Y then ENTER.
 
 Step 2 – RebootThen reboot using : sudo reboot When the Pi restarts the display should be rotated.
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/AGPLv3_Logo.svg/400px-AGPLv3_Logo.svg.png)
+![](https://easydigitalkey.com/img/cms/t%C3%A9l%C3%A9chargement%20(2).png)
 LICENSE AGPL-3.0-only ou AGPL-3.0-or-later
 AGPL V3 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3 of the License, or (at your option) any later version.
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
