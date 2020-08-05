@@ -14,11 +14,6 @@ Here is a quick overview what you need to do for downloaded the latest EasyDK im
 
 ### Bêta Versions (For All versions    user : edkuser / pass :edkuser)
 
-**NEW - FOR EASY DK MOBIL APP (Androïd & IOS Current publication)
-
-`git clone https://git.ioconstellation.com/iostaff/raspdeploy.git`
-
-`cd raspdeploy && sudo ./deploy.sh -v appbeta`
 
 **V1 - Master : Stable version**
 
