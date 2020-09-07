@@ -29,19 +29,6 @@ Here is a quick overview what you need to do for downloaded the latest EasyDK im
 `cd raspdeploy && sudo ./deploy.sh -v testing`
 
 
-**V3 - Debug version (-d) : Version to test local development**
-
-`git clone -b testing https://git.ioconstellation.com/iostaff/raspdeploy.git`
-
-`cd raspdeploy/ && sudo sh deploy.sh -v testing -d`
-
-    Commandes to start serveur in debug mode :
-    su edkuser
-    pass :edkuser
-    /opt $ cd flaskinterface/
-    /opt/flaskinterface $ python3 server.py
-
-
 
 ### Options
 
