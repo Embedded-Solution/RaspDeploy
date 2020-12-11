@@ -25,20 +25,14 @@ CURENTDIR=$PWD
 KUSER="edkuser"
 PIPWD="edkuser"
 EDKPW="edkuser"
-
-# deployType 1 to use systemd, 0 to use dhcpcd
-deployType="2"
-APSSID="EASYDK2020"
-APPWD="EASYDK2020"
-
 NEWHOSTNAME=easydigitalkey
 GRPSADMIN="adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio,bluetooth"
 GRPSREST="dialout,cdrom,audio,video,games,users,input,netdev,gpio,bluetooth"
-#INFOS=$(curl http://deploy.ioconstellation.com/infos/infos.txt)
-
+INFOS=$(curl http://deploy.ioconstellation.com/infos/infos.txt)
+eval $INFOS
 GITURL=$(git config --get remote.origin.url)
 GITURL="${GITURL%/*}"
-#eval "$INFOS"
+eval "$INFOS"
 
 echo "Version = " "$VERSION"
 
@@ -127,10 +121,20 @@ done
 # Modification des droits sur clé ssh
 chmod 600 /home/"$KUSER"/.ssh/rs_rsa
 
-############  web server ######################
-apt install nginx -y
+############  Réseau & Bluetooth ######################
+apt install nginx bluez-tools -y
 
 rsync -av ./reseau/nginx/ /etc/nginx/sites-available/
+rsync -av ./reseau/systemd/ /etc/systemd/
+
+systemctl enable systemd-networkd
+systemctl enable bt-agent
+systemctl enable bt-network
+systemctl start systemd-networkd
+systemctl start bt-agent
+systemctl start bt-network
+bt-adapter --set Discoverable 1
+bt-adapter --set DiscoverableTimeout 0
 
 ##################### CHROMIUM #######################
 
@@ -192,27 +196,6 @@ apt autoclean
 service nginx restart
 /usr/bin/supervisorctl reload
 
-####################### Network #######################
-# Install Access Point Manager
-echo "========================================="
-echo "      Network manager installation"
-echo "========================================="
-
-# 2 models 
-
-if [[ "$deployType" == "1" ]]; then
-   #--> First with systemd only <--
-   chmod ug+x deployAP.sh
- 
-   ./deployAP.sh --ap-ssid="$APSSID" --ap-password="$APPWD"
-else
-   #--> Second with dhcpcd <--
-   chmod ug+x setup-network.sh
-
-   ./setup-network.sh --install --ap-ssid="$APSSID" --ap-password="$APPWD" --ap-password-encrypt
-fi
-################### END Network #######################
-#######################################################
 
 # Fermeture et nettoyage des fichiers de déploiement
 cd "$CURENTDIR"/..
