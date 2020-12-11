@@ -4,7 +4,6 @@ Here is a quick overview what you need to do for downloaded the latest EasyDK im
 
 - A + (Bêta) 
 - B + (Bêta) You can activate Open GL
-- B 4 (Alpha) You can activate Open GL
 
 # [Tutorial videos ](https://easydigitalkey.com/gb/content/36-discover-easy-dkon-video)
  
