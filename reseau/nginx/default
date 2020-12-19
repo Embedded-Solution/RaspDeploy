@@ -4,7 +4,7 @@ upstream backend_flask{
 
 server {
     listen    80;
-    allow  172.20.1.1/24;
+     # allow  172.20.1.0/24;
     allow   all;
     # server_name    www.example.com example.com;
     location / {
