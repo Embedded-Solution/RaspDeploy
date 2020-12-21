@@ -342,6 +342,9 @@ wpa=2
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
+# Enable hostapd_cli
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
 EOF
 
 chmod 600 /etc/hostapd/hostapd.conf
