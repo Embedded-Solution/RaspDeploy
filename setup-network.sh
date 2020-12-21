@@ -811,6 +811,10 @@ echo "Starting hostapd service..."
 systemctl start hostapd.service
 sleep 10
 
+# Start hostapd_cli script as a daemon
+echo "Starting hostapd_cli script daemon..."
+sudo setsid hostapd_cli -a '/usr/local/sbin/hostapd_cli_daemon.py' >/dev/null 2>&1 < /dev/null &
+
 #Start dhcpcd. Again, a 5-second sleep
 echo "Starting dhcpcd service..."
 systemctl start dhcpcd.service

@@ -87,6 +87,8 @@ sudo sed -i "s/raspberrypi/easydigitalkey/g" /etc/hosts
 
 # Installation des scripts utilisateurs et système
 cp -f ./alluserscripts/* /usr/local/sbin
+sudo chmod a+x /usr/local/sbin/hostapd_cli_daemon.py
+sudo mkdir /var/log/hotspot
 
 # Copie des fichier partagés par ts les utilisateurs
 cp -Rf ./usersshare/* /usr/share
