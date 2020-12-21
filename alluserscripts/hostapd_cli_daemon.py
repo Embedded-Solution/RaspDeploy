@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 # usage:
-#   $ hostapd_cli -a 'hotspot.py'
+#   $ hostapd_cli -a 'hostapd_cli_daemon.py'
+# as a daemon
+#   $ sudo setsid hostapd_cli -a '/usr/local/sbin/hostapd_cli_daemon.py' >/dev/null 2>&1 < /dev/null &
 #
-# First create log folder:
+# First create log folder and set hostapd_cli_daemon.py executable:
 #   $ sudo mkdir /var/log/hotspot
+#   $ sudo chmod a+x
 
 import sys
 from datetime import datetime
@@ -14,12 +17,11 @@ import urllib.request
 
 def on_new_client(interface, event, macaddress):
     timestamp = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-    logger.info(F'{timestamp} {interface} {event} {macaddress}\n')
     response = urllib.request.urlopen(F"http://127.0.0.1/hotspot?iface={interface}&ev={event}&mac={macaddress}").read()
     if response == b'OK':
-        logger.info(response.decode("utf-8") )
+        logger.info(F'{timestamp} {interface} {event} {macaddress} response={response.decode("utf-8")}')
     else:
-        logger.info(response.decode("utf-8") [0:40] + "...")
+        logger.warning(F'{timestamp} {interface} {event} {macaddress} response={response.decode("utf-8")[0:40]}...')
 
 
 if __name__ == "__main__":
