@@ -17,11 +17,15 @@ import urllib.request
 
 def on_new_client(interface, event, macaddress):
     timestamp = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-    response = urllib.request.urlopen(F"http://127.0.0.1/hotspot?iface={interface}&ev={event}&mac={macaddress}").read()
-    if response == b'OK':
-        logger.info(F'{timestamp} {interface} {event} {macaddress} response={response.decode("utf-8")}')
-    else:
-        logger.warning(F'{timestamp} {interface} {event} {macaddress} response={response.decode("utf-8")[0:40]}...')
+    flaskurl = F"http://127.0.0.1/hotspot?iface={interface}&ev={event}&mac={macaddress}"
+    try:
+        response = urllib.request.urlopen(flaskurl).read()
+        if response == b'OK':
+            logger.info(F'{timestamp} {interface} {event} {macaddress} response={response.decode("utf-8")}')
+        else:
+            logger.warning(F'{timestamp} {interface} {event} {macaddress} response={response.decode("utf-8")[0:40]}...')
+    except:
+        logger.error(F'{timestamp} {interface} {event} {macaddress} Error flaskinterface API: {flaskurl}')
 
 
 if __name__ == "__main__":
