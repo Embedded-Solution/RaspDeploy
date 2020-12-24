@@ -18,3 +18,8 @@ disable_splash=1
 
 # Driver gpu acceleré (full)
 #dtoverlay=vc4-fkms-v3d
+
+# Fix correct 16:9 aspect ratio on PC monitors
+hdmi_drive=0
+hdmi_group=1
+hdmi_mode=16
