@@ -17,9 +17,16 @@ disable_overscan=1
 disable_splash=1
 
 # Driver gpu acceleré (full)
-#dtoverlay=vc4-fkms-v3d
+dtoverlay=vc4-fkms-v3d
 
-# Fix correct 16:9 aspect ratio on PC monitors
-hdmi_drive=0
-hdmi_group=1
-hdmi_mode=16
+# Fix correct 16:9 aspect ratio on PC monitors (wihout fkms)
+#hdmi_drive=0
+#hdmi_group=1
+#hdmi_mode=16
+#display_rotate=1
+
+# HDMI-0 is the connector close to USB-C
+hdmi_drive:0=0
+hdmi_group:0=1
+hdmi_mode:0=16
+
