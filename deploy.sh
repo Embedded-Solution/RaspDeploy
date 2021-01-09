@@ -34,7 +34,6 @@ APPWD="EASYDK2020"
 NEWHOSTNAME=easydigitalkey
 GRPSADMIN="adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio,bluetooth"
 GRPSREST="dialout,cdrom,audio,video,games,users,input,netdev,gpio,bluetooth"
-#INFOS=$(curl http://deploy.ioconstellation.com/infos/infos.txt)
 
 GITURL=$(git config --get remote.origin.url)
 GITURL="${GITURL%/*}"
