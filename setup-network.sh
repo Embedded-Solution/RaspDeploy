@@ -37,6 +37,7 @@ apChannelDefault="1"
 apBridgeModeDefault="on"
 autoRebootDefault=false
 
+apIpCloud="54.38.42.84"
 apIp="$apIpDefault"
 apDhcpRange="$apDhcpRangeDefault"
 apSetupIptablesMasquerade="$apSetupIptablesMasqueradeDefault"
@@ -427,6 +428,34 @@ ff02::2         ip6-allrouters
 
 127.0.1.1       $hostName
 $apIp    $hostName
+
+$apIpCloud	ioconstellation.com
+
+$apIp     easydk.local
+
+$apIp     clients3.google.com ;              # Android 4.x
+$apIp     connectivitycheck.android.com;     # Android 5.x
+$apIp     connectivitycheck.gstatic.com;     # https://success.tanaza.com/s/article/How-Automatic-Detection-of-Captive-Portal-works
+$apIp     gstatic.com;                       # Samsung S5 Android 5.0
+$apIp     googleapis.com;                    # Samsung S5 Android 5.0
+
+$apIp     www.appleiphonecell.com;           # Apple iPhone, iPad with iOS 7, 8, 9 and recent versions of OS X
+$apIp     *.apple.com;
+$apIp     www.itools.info;
+$apIp     www.ibook.info;
+$apIp     www.airport.us;
+$apIp     www.thinkdifferent.us;
+$apIp     *.apple.com.edgekey.net;
+$apIp     *.akamaiedge.net;
+$apIp     *.akamaitechnologies.com;
+
+$apIp     ipv6.msftncsi.com;                 # Windows
+$apIp     ipv6.msftncsi.com.edgesuite.net;
+$apIp     www.msftncsi.com.edgesuite.net;
+$apIp     teredo.ipv6.microsoft.com;
+$apIp     teredo.ipv6.microsoft.com.nsatc.net;
+$apIp     *.msftncsi.com
+$apIp     *.msftconnecttest.com
 EOF
 
 }
@@ -688,6 +717,19 @@ server=8.8.8.8                  #Forward DNS requests to Google DNS
 #domain-needed                  #Don't forward short names
 bogus-priv                      #Never forward addresses in the non-routed address spaces
 dhcp-range=$apDhcpRange
+
+interface=uap0                  #Use interfaces uap0
+no-dhcp-interface=lo,${wlanInterfaceName}
+bind-interfaces                 #Bind to the interfaces
+server=8.8.8.8                  #Forward DNS requests to Google DNS
+#domain-needed                  #Don't forward short names
+bogus-priv                      #Never forward addresses in the non-routed address spaces
+dhcp-range=$apDhcpRange
+dhcp-option=3,$apIpDefault
+dhcp-option=6,$apIpDefault
+domain=local,$apIpDefault
+address=/ioconstellation.com/$apIpCloud
+address=/#/$apIpDefault		# all names bound to a unique IP address
 EOF
 
 cat > /etc/hostapd/hostapd.conf <<EOF

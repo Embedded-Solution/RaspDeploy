@@ -1,0 +1,29 @@
+upstream backend_flask{
+    server 127.0.0.1:8080;
+}
+
+server {
+    listen    80;
+    allow  172.20.1.0/24;
+    allow   all;
+    # server_name    www.example.com example.com;
+
+    location / {
+      include proxy_params;
+      proxy_pass http://backend_flask;
+    }
+
+    location /static {
+        alias /opt/flaskinterface/static;
+        expires 1d;
+    }
+
+    location /socket.io {
+        include proxy_params;
+        proxy_http_version 1.1;
+        proxy_buffering off;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_pass http://127.0.0.1:8080/socket.io;
+    }
+}

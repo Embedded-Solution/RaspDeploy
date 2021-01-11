@@ -24,6 +24,7 @@ server {
                         www.msftncsi.com.edgesuite.net;
                         teredo.ipv6.microsoft.com;
                         teredo.ipv6.microsoft.com.nsatc.net;
+                        www.msftconnecttest.com;
 
     access_log      /var/log/nginx/captive-portal-access.log;
     error_log       /var/log/nginx/captive-portal-error.log;

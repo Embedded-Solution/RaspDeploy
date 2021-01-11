@@ -6,7 +6,35 @@ server {
     listen    80;
     allow  172.20.1.0/24;
     allow   all;
-    # server_name    www.example.com example.com;
+    server_name 172.20.1.1 
+		easydk.local
+		clients3.google.com
+                connectivitycheck.android.com
+                connectivitycheck.gstatic.com
+                www.appleiphonecell.com
+                *.apple.com
+                www.itools.info
+                www.ibook.info
+                www.airport.us
+                www.thinkdifferent.us
+                *.apple.com.edgekey.net
+                *.akamaiedge.net
+                *.akamaitechnologies.com
+                *.msftncsi.com
+                *.msftconnecttest.com
+                ipv6.msftncsi.com
+                ipv6.msftncsi.com.edgesuite.net
+                www.msftncsi.com.edgesuite.net
+                teredo.ipv6.microsoft.com
+                teredo.ipv6.microsoft.com.nsatc.net;
+
+    if ($http_user_agent ~ "^CaptiveNetworkSupport(.*)$"){
+        return 302 http://easydk.local/;
+    }
+
+    location /generate_204 {
+        return 302 http://easydk.local;
+    }
 
     location / {
       include proxy_params;

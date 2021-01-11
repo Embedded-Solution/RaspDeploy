@@ -46,6 +46,7 @@ apIpDefault="172.20.1.1"
 apDhcpRangeDefault="172.20.1.50,172.20.1.100,12h"
 apCountryCodeDefault="FR"
 apChannelDefault="1"
+apIpCloud="54.38.42.84"
 
 apIp="$apIpDefault"
 apDhcpRange="$apDhcpRangeDefault"

@@ -8,3 +8,31 @@ ff02::2		ip6-allrouters
 127.0.1.1	raspberrypi
 192.168.10.1    portal www.portal
 192.168.10.1    wpad
+
+172.20.1.1      easydk.local
+
+172.20.1.1     	clients3.google.com ;              # Android 4.x
+172.20.1.1     	connectivitycheck.android.com;     # Android 5.x
+172.20.1.1     	connectivitycheck.gstatic.com;      # https://success.tanaza.com/s/article/How-Automatic-Detection-of-Captive-Portal-works
+            	# gstatic.com;                       # Samsung S5 Android 5.0
+                # googleapis.com;                    # Samsung S5 Android 5.0
+
+            	# Apple iPhone, iPad with iOS 7, 8, 9 and recent versions of OS X
+172.20.1.1     	www.appleiphonecell.com;
+172.20.1.1     	*.apple.com;
+172.20.1.1     	www.itools.info;
+172.20.1.1     	www.ibook.info;
+172.20.1.1     	www.airport.us;
+172.20.1.1     	www.thinkdifferent.us;
+172.20.1.1     	*.apple.com.edgekey.net;
+172.20.1.1     	*.akamaiedge.net;
+172.20.1.1     	*.akamaitechnologies.com;
+
+            	# Windows
+172.20.1.1     	ipv6.msftncsi.com;
+172.20.1.1     	ipv6.msftncsi.com.edgesuite.net;
+172.20.1.1     	www.msftncsi.com;
+172.20.1.1     	www.msftncsi.com.edgesuite.net;
+172.20.1.1     	teredo.ipv6.microsoft.com;
+172.20.1.1     	teredo.ipv6.microsoft.com.nsatc.net;
+
