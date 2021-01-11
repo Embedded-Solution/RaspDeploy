@@ -32,7 +32,7 @@ Installation requires [Raspbian Buster with desktop](https://www.raspberrypi.org
 #### Delete: -r
 To delete the old raspdeploy file in case of error
 
-`sudo rm -r RaspReploy`
+`sudo rm -r RaspDeploy`
 
 #### Upgrade: -u
 Adding -u to the sh deploy.sh command activates package upgrades at installation time.
