@@ -16,14 +16,14 @@ Installation requires [Raspbian Buster with desktop](https://www.raspberrypi.org
 
 **V1 - Master : Stable version**
 
-`git clone https://git.ioconstellation.com/iostaff/raspdeploy.git`
+`git clone https://git.ioconstellation.com/iostaff/RaspDeploy.git`
 
 `cd raspdeploy && sudo ./deploy.sh`
 
  
 **V2 - Testing : Work in progress, last updates**
 
-`git clone -b testing https://git.ioconstellation.com/iostaff/raspdeploy.git`
+`git clone -b testing https://git.ioconstellation.com/iostaff/RaspDeploy.git`
 
 `cd raspdeploy && sudo ./deploy.sh -v testing`
 
