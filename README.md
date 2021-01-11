@@ -18,31 +18,31 @@ Installation requires [Raspbian Buster with desktop](https://www.raspberrypi.org
 
 `git clone https://git.ioconstellation.com/iostaff/RaspDeploy.git`
 
-`cd raspdeploy && sudo ./deploy.sh`
+`cd RaspDeploy && sudo ./deploy.sh`
 
  
 **V2 - Testing : Work in progress, last updates**
 
 `git clone -b testing https://git.ioconstellation.com/iostaff/RaspDeploy.git`
 
-`cd raspdeploy && sudo ./deploy.sh -v testing`
+`cd RaspDeploy && sudo ./deploy.sh -v testing`
 
 ### Options
 
 #### Delete: -r
 To delete the old raspdeploy file in case of error
 
-`sudo rm -r raspdeploy`
+`sudo rm -r RaspReploy`
 
 #### Upgrade: -u
 Adding -u to the sh deploy.sh command activates package upgrades at installation time.
 
-`cd raspdeploy/ && sudo sh deploy.sh -u [-v version]`
+`cd RaspDeploy/ && sudo sh deploy.sh -u [-v version]`
 
 #### Cleaning: -c
 Adding -c to the sh deploy.sh command removes the edkuser and its folder as well as the / opt / flaskinterface folder before deployment.
 
-`cd raspdeploy/ && sudo sh deploy.sh -c [-v version]`
+`cd RaspDeploy/ && sudo sh deploy.sh -c [-v version]`
 
 ### Rotate the Raspberry Pi Display (Pi 4)
 
