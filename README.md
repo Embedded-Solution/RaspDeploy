@@ -12,20 +12,29 @@ Here is a quick overview what you need to do for downloaded the latest EasyDK im
 ### Requirements
 Installation requires [Raspbian Buster with desktop](https://www.raspberrypi.org/downloads/raspbian/)
 
-### Bêta Versions (For All versions    user : edkuser / pass :edkuser)
+### Installation
 
-**V1 - Master : Stable version**
+#### Master : Stable version
 
-`git clone https://git.ioconstellation.com/iostaff/RaspDeploy.git`
-
-`cd RaspDeploy && sudo ./deploy.sh`
-
+```bash
+git clone https://git.ioconstellation.com/iostaff/RaspDeploy.git
+cd RaspDeploy && sudo ./deploy.sh
+```
  
-**V2 - Testing : Work in progress, last updates**
+#### Testing : Work in progress, last updates
 
-`git clone -b testing https://git.ioconstellation.com/iostaff/RaspDeploy.git`
+```bash
+git clone -b testing https://git.ioconstellation.com/iostaff/RaspDeploy.git
+cd RaspDeploy && sudo ./deploy.sh -v testing
+```
 
-`cd RaspDeploy && sudo ./deploy.sh -v testing`
+#### Developer (post-installation)
+
+```bash
+sudo /bin/sh /opt/flaskinterface/dev.sh
+```
+
+`dev.sh` reroute plugins symbolic links to `/opt/flaskinterface/plugins`
 
 ### Options
 
