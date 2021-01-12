@@ -218,4 +218,7 @@ fi
 # Fermeture et nettoyage des fichiers de déploiement
 cd "$CURENTDIR"/..
 
+# Google nameserver
+sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
+
 # Reboot
