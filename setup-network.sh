@@ -872,9 +872,6 @@ systemctl start netStop.service
 
 echo "netStart DONE"
 bash -c 'echo "\$(date +"%Y-%m-%d %T") - Started: hostapd, dnsmasq, dhcpcd" >> $netLogFile'
-
-# Fix resolv.conf nameserver=127.0.0.1 at reboot
-sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 EOF
 
 chmod ug+x $netStartFile
