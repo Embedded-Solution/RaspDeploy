@@ -721,6 +721,7 @@ bogus-priv                      #Never forward addresses in the non-routed addre
 dhcp-range=$apDhcpRange
 dhcp-option=3,$apIpDefault
 dhcp-option=6,$apIpDefault
+dhcp-option=19,0                # option ip-forwarding off
 domain=local,$apSubnet,local
 address=/ioconstellation.com/$apIpCloud
 address=/#/$apIpDefault		# all names bound to a unique IP address
