@@ -30,6 +30,7 @@ echo ""
 echo "[INFO]: Processing network setup for OS Version: $OS_VERSION"
 
 apIpDefault="172.20.1.1"
+apSubnet="172.20.1.0/24"
 apDhcpRangeDefault="172.20.1.50,172.20.1.100,12h"
 apSetupIptablesMasqueradeDefault="iptables -t nat -A POSTROUTING -s 172.20.1.0/24 ! -d 172.20.1.0/24 -j MASQUERADE"
 apCountryCodeDefault="FR"
@@ -710,24 +711,17 @@ if [ ! -f "/etc/dnsmasq.conf.orig" ]; then
 fi
 
 cat > /etc/dnsmasq.conf <<EOF
-interface=lo,${apInterfaceName}               #Use interfaces lo and ${apInterfaceName}
-no-dhcp-interface=lo,${wlanInterfaceName}
-bind-interfaces                 #Bind to the interfaces
-server=8.8.8.8                  #Forward DNS requests to Google DNS
-#domain-needed                  #Don't forward short names
-bogus-priv                      #Never forward addresses in the non-routed address spaces
-dhcp-range=$apDhcpRange
-
 interface=uap0                  #Use interfaces uap0
 no-dhcp-interface=lo,${wlanInterfaceName}
 bind-interfaces                 #Bind to the interfaces
+server=/local/$apIpDefault
 server=8.8.8.8                  #Forward DNS requests to Google DNS
 #domain-needed                  #Don't forward short names
 bogus-priv                      #Never forward addresses in the non-routed address spaces
 dhcp-range=$apDhcpRange
 dhcp-option=3,$apIpDefault
 dhcp-option=6,$apIpDefault
-domain=local,$apIpDefault
+domain=local,$apSubnet,local
 address=/ioconstellation.com/$apIpCloud
 address=/#/$apIpDefault		# all names bound to a unique IP address
 EOF
