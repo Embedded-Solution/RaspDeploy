@@ -113,7 +113,7 @@ fi
 
 # Modifier les droits sudoer
 echo "edkstf ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/020_edkstf-nopasswd
-echo "edkuser ALL=(ALL) NOPASSWD: /sbin/reboot,/sbin/shutdown,/usr/sbin/service,/sbin/ifconfig,/usr/sbin/rfkill,/usr/bin/anydesk" > /etc/sudoers.d/020_edkuser-nopasswd
+echo "edkuser ALL=(ALL) NOPASSWD:  /usr/bin/sed,/sbin/reboot,/sbin/shutdown,/usr/sbin/service,/sbin/ifconfig,/usr/sbin/rfkill,/usr/bin/anydesk" > /etc/sudoers.d/020_edkuser-nopasswd
 
 # Changer l'utilisateur "par defaut"
 /bin/sed -i "s/autologin-user=pi/autologin-user=edkuser/g" /etc/lightdm/lightdm.conf
