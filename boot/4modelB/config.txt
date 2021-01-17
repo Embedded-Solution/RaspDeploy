@@ -30,3 +30,7 @@ hdmi_drive:0=0
 hdmi_group:0=1
 hdmi_mode:0=16
 
+# disables the warning overlays
+avoid_warnings=1
+
+
