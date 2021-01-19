@@ -1,16 +1,22 @@
 # Manual
 
-Here is a quick overview what you need to do for downloaded the latest EasyDK img for your rpi
+Here is what you need to do for install the latest EasyDK software on your Raspberry Pi 4:
 
-- A + (Bêta) 
-- B + (Bêta) You can activate Open GL
+* [SD card preparation](#sd-card-preparation)
+* [Enable Pi 4 GPU Video Decode hardware accelerated](docs/CHROMIUM_GPU.md)
+* [Rotate the Raspberry Pi Display (Pi 4)](#rotate-the-raspberry-pi-display-pi-4)
+* [Rotate the Raspberry Pi Display Output 7 (Pi 3)](#rotate-the-raspberry-pi-display-output-7-pi-3)
 
-# [Video tutorials ](https://easydigitalkey.com/gb/content/36-discover-easy-dkon-video)
+
+Notes:
+* As of *[flaskinterface](https://git.ioconstellation.com/iostaff/flaskinterface)* version 2.2, only **Pi 4** is supported.
+
  
 ## SD card preparation
 
 ### Requirements
-Installation requires [Raspbian Buster with desktop](https://www.raspberrypi.org/downloads/raspbian/)
+
+Installation requires [Raspbian Buster with desktop](https://www.raspberrypi.org/downloads/raspbian/).
 
 ### Installation
 
@@ -57,7 +63,7 @@ Adding -c to the sh deploy.sh command removes the edkuser and its folder as well
 
 `cd RaspDeploy/ && sudo sh deploy.sh -c [-v version]`
 
-### Rotate the Raspberry Pi Display (Pi 4)
+## Rotate the Raspberry Pi Display (Pi 4)
 
 Proceed as *pi* user in desktop menu **Preferences > Screen Configration** or create `/usr/share/dispsetup.sh` as executable:
 
@@ -76,7 +82,7 @@ exit 0
 ```
 
 
-### Rotate the Raspberry Pi Display Output 7 (Pi 3)
+## Rotate the Raspberry Pi Display Output 7 (Pi 3)
 
 Step 1 – Edit `/boot/config.txt`
 
