@@ -339,10 +339,13 @@ ignore_broadcast_ssid=0
 hw_mode=g
 channel=1
 auth_algs=1
-wpa=2
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP
+# Without WPA
+wpa=0
+# Wth WPA
+#wpa=2
+#wpa_key_mgmt=WPA-PSK
+#wpa_pairwise=TKIP
+#rsn_pairwise=CCMP
 # Enable hostapd_cli
 ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
