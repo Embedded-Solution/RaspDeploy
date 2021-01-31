@@ -722,12 +722,12 @@ macaddr_acl=0
 auth_algs=1
 # Require clients to know the network name
 ignore_broadcast_ssid=0
-# Use WPA2
-wpa=2
+# Use WPA2 or not
+wpa=0
 # Use a pre-shared key
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP
+#wpa_key_mgmt=WPA-PSK
+#wpa_pairwise=TKIP
+#rsn_pairwise=CCMP
 #driver=nl80211
 # I commented out the lines below in my implementation, but I kept them here for reference.
 # Enable WMM
