@@ -708,10 +708,32 @@ address=/fr/$apIp
 #address=/#/$apIpDefault		# all names bound to a unique IP address
 EOF
 
-cat > /etc/hostapd/hostapd.conf <<EOF
+cat > /etc/hostapd/hostapd.conf.open <<EOF
+channel=$apChannel
+ssid=$apSsid
+country_code=$apCountryCode
+interface=${apInterfaceName}
+# Use the 2.4GHz band (I think you can use in ag mode to get the 5GHz band as well, but I have not tested this yet)
+hw_mode=g
+# Accept all MAC addresses
+macaddr_acl=0
+# Use WPA authentication
+#auth_algs=1
+# Require clients to know the network name
+ignore_broadcast_ssid=0
+# No WPA2
+wpa=0
+# Enable hostapd_cli
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+EOF
+
+cat > /etc/hostapd/hostapd.conf.secure <<EOF
 channel=$apChannel
 ssid=$apSsid
 $apPasswordConfig
+# Do not remove #psk= line which is requied by flaskinterface setting
+#psk=$apSsid
 country_code=$apCountryCode
 interface=${apInterfaceName}
 # Use the 2.4GHz band (I think you can use in ag mode to get the 5GHz band as well, but I have not tested this yet)
@@ -722,12 +744,12 @@ macaddr_acl=0
 auth_algs=1
 # Require clients to know the network name
 ignore_broadcast_ssid=0
-# Use WPA2 or not
-wpa=0
+# Use WPA2
+wpa=2
 # Use a pre-shared key
-#wpa_key_mgmt=WPA-PSK
-#wpa_pairwise=TKIP
-#rsn_pairwise=CCMP
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
 #driver=nl80211
 # I commented out the lines below in my implementation, but I kept them here for reference.
 # Enable WMM
@@ -738,6 +760,9 @@ wpa=0
 ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
 EOF
+
+# Default unsecured network
+cp /etc/hostapd/hostapd.conf.open /etc/hostapd/hostapd.conf
 
 sed -i 's/^#DAEMON_CONF=.*$/DAEMON_CONF="\/etc\/hostapd\/hostapd.conf"/' /etc/default/hostapd
 
