@@ -128,6 +128,7 @@ function setWlanDetails()
 }
 
 setWlanDetails
+cp /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
 
 # REFERENCE: https://en.wikipedia.org/wiki/Private_network#Private_IPv4_addresses
 # Visit above site to know more about Reserved Private IP Address for LAN/WLAN communication.
