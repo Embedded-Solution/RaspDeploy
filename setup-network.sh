@@ -733,7 +733,7 @@ cat > /etc/hostapd/hostapd.conf.secure <<EOF
 channel=$apChannel
 ssid=$apSsid
 $apPasswordConfig
-# Do not remove #psk= line which is requied by flaskinterface setting
+# Do not remove commented psk= line which is required by flaskinterface setting
 #psk=$apSsid
 country_code=$apCountryCode
 interface=${apInterfaceName}
