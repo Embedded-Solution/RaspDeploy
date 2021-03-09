@@ -225,3 +225,4 @@ cd "$CURENTDIR"/..
 sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 
 # Reboot
+sudo reboot
