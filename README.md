@@ -38,14 +38,6 @@ git clone -b testing https://git.ioconstellation.com/iostaff/RaspDeploy.git
 cd RaspDeploy && sudo ./deploy.sh -v testing
 ```
 
-#### Developer (post-installation)
-
-```bash
-sudo /bin/sh /opt/flaskinterface/dev.sh
-```
-
-`dev.sh` reroute plugins symbolic links to `/opt/flaskinterface/plugins`
-
 ### Options
 
 #### Delete: -r
