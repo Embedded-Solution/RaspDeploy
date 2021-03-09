@@ -882,7 +882,7 @@ doAddRcLocalNetStartSetup
 
 cp --preserve=all $netStartFile /home/pi/network-setup/bin/netStart.hotspot.on
 
-cat > /etc/hostapd/hostapd.conf.secure <<EOF
+cat > /home/pi/network-setup/bin/netStart.hotspot.off <<EOF
 # After deactivating the hotspot we need to start eth0 and wlan0:
 sudo ifconfig eth0 up
 sudo systemctl start dhcpcd
