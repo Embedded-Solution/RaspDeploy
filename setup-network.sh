@@ -880,6 +880,18 @@ chmod ug+x $netStartFile
 
 doAddRcLocalNetStartSetup
 
+cp --preserve=all $netStartFile /home/pi/network-setup/bin/netStart.hotspot.on
+
+cat > /etc/hostapd/hostapd.conf.secure <<EOF
+# After deactivating the hotspot we need to start eth0 and wlan0:
+sudo ifconfig eth0 up
+sudo systemctl start dhcpcd
+echo "netStart wihout hotspot DONE"
+bash -c 'echo "$(date +"%Y-%m-%d %T") - Started: dhcpcd (no hotspot)" >> /home/pi/network-setup/log/network.log'
+EOF
+
+chmod ug+x /home/pi/network-setup/bin/netStart.hotspot.off
+
 doAddApIpEntriesToHostFile
 
 # Disable regular network services:
