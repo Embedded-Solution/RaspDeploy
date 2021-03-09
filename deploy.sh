@@ -165,6 +165,9 @@ fi
 
 rm -r /opt/flaskinterface
 git clone -b "$VERSION" "$GITURL"/flaskinterface.git /opt/flaskinterface
+chown -R edkuser:pi flaskinterface
+chmod -R g+w flaskinterface
+sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 /bin/sh /opt/flaskinterface/run.sh
 
  
