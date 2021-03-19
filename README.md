@@ -103,17 +103,3 @@ Save the file by using CTRL-X, Y then ENTER.
 Step 2 – Reboot
 
 Then reboot using : sudo reboot When the Pi restarts the display should be rotated.
-
-
-## Licensing
-![](https://easydigitalkey.com/img/cms/t%C3%A9l%C3%A9chargement%20(2).png)
-LICENSE AGPL-3.0-only ou AGPL-3.0-or-later
-AGPL V3 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3 of the License, or (at your option) any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
-You will find a copy of the GNU Affero General Public License along with this program.
-You can also have a look at reference website http://www.gnu.org/licenses/. Limits. In any case, if you re-distribute this product you must :
-
-distribute it under AGLP V3 license (or above) and so have to include source code
-reference original product (Easydigitalkey)
-not let any ambiguity about origin of product, which could lead to think that you are the author of the product 
-Distribution also includes delivery even to one only customer and providing of service (hosting or SaaS mode). 
