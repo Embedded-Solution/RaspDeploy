@@ -20,6 +20,12 @@ server {
         expires 1d;
     }
 
+    location /preview {
+        alias /home/edkuser/.kioskfiles/ukplugs;
+        gzip  on;
+        add_header Cache-Control "no-store";
+    }
+
     location /socket.io {
         include proxy_params;
         proxy_http_version 1.1;
