@@ -24,6 +24,7 @@ server {
         alias /home/edkuser/.kioskfiles/ukplugs;
         gzip  on;
         add_header Cache-Control "no-store";
+        add_header Access-Control-Allow-Origin *;
     }
 
     location /socket.io {
