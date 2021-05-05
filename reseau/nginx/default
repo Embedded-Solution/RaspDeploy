@@ -22,7 +22,7 @@ server {
 
     location /preview {
         alias /home/edkuser/.kioskfiles/ukplugs;
-        gzip  on;
+        gzip  off;
         add_header Cache-Control "no-store";
         add_header Access-Control-Allow-Origin *;
     }
