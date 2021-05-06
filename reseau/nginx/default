@@ -28,7 +28,7 @@ server {
     }
 
     location /immoview {
-        alias /home/edkuser/.kioskfiles/ukplugs;
+        alias /home/edkuser/.kioskdata/immoview;
         gzip  off;
         expires 1d;
         add_header Cache-Control "private, no-transform";
