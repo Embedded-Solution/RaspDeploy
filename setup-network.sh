@@ -128,6 +128,7 @@ function setWlanDetails()
 }
 
 setWlanDetails
+cp /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
 
 # REFERENCE: https://en.wikipedia.org/wiki/Private_network#Private_IPv4_addresses
 # Visit above site to know more about Reserved Private IP Address for LAN/WLAN communication.
@@ -708,10 +709,32 @@ address=/fr/$apIp
 #address=/#/$apIpDefault		# all names bound to a unique IP address
 EOF
 
-cat > /etc/hostapd/hostapd.conf <<EOF
+cat > /etc/hostapd/hostapd.conf.open <<EOF
+channel=$apChannel
+ssid=$apSsid
+country_code=$apCountryCode
+interface=${apInterfaceName}
+# Use the 2.4GHz band (I think you can use in ag mode to get the 5GHz band as well, but I have not tested this yet)
+hw_mode=g
+# Accept all MAC addresses
+macaddr_acl=0
+# Use WPA authentication
+#auth_algs=1
+# Require clients to know the network name
+ignore_broadcast_ssid=0
+# No WPA2
+wpa=0
+# Enable hostapd_cli
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+EOF
+
+cat > /etc/hostapd/hostapd.conf.secure <<EOF
 channel=$apChannel
 ssid=$apSsid
 $apPasswordConfig
+# Do not remove commented psk= line which is required by flaskinterface setting
+#psk=$apSsid
 country_code=$apCountryCode
 interface=${apInterfaceName}
 # Use the 2.4GHz band (I think you can use in ag mode to get the 5GHz band as well, but I have not tested this yet)
@@ -722,12 +745,12 @@ macaddr_acl=0
 auth_algs=1
 # Require clients to know the network name
 ignore_broadcast_ssid=0
-# Use WPA2 or not
-wpa=0
+# Use WPA2
+wpa=2
 # Use a pre-shared key
-#wpa_key_mgmt=WPA-PSK
-#wpa_pairwise=TKIP
-#rsn_pairwise=CCMP
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
 #driver=nl80211
 # I commented out the lines below in my implementation, but I kept them here for reference.
 # Enable WMM
@@ -738,6 +761,9 @@ wpa=0
 ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
 EOF
+
+# Default unsecured network
+cp /etc/hostapd/hostapd.conf.open /etc/hostapd/hostapd.conf
 
 sed -i 's/^#DAEMON_CONF=.*$/DAEMON_CONF="\/etc\/hostapd\/hostapd.conf"/' /etc/default/hostapd
 
@@ -853,6 +879,18 @@ EOF
 chmod ug+x $netStartFile
 
 doAddRcLocalNetStartSetup
+
+cp --preserve=all $netStartFile /home/pi/network-setup/bin/netStart.hotspot.on
+
+cat > /home/pi/network-setup/bin/netStart.hotspot.off <<EOF
+# After deactivating the hotspot we need to start eth0 and wlan0:
+sudo ifconfig eth0 up
+sudo systemctl start dhcpcd
+echo "netStart wihout hotspot DONE"
+bash -c 'echo "$(date +"%Y-%m-%d %T") - Started: dhcpcd (no hotspot)" >> /home/pi/network-setup/log/network.log'
+EOF
+
+chmod ug+x /home/pi/network-setup/bin/netStart.hotspot.off
 
 doAddApIpEntriesToHostFile
 

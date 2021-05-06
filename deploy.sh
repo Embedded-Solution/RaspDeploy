@@ -26,10 +26,10 @@ KUSER="edkuser"
 PIPWD="edkuser"
 EDKPW="edkuser"
 
-# deployType 1 to use systemd, 0 to use dhcpcd
+# deployType 1 to use systemd, 2 to use dhcpcd (flaskinterface sedttings supports type 2)
 deployType="2"
-APSSID="EASYDK2020"
-APPWD="EASYDK2020"
+APSSID="EASYDK_SIGNAGE"
+APPWD="EASYDK_SIGNAGE"
 
 NEWHOSTNAME=easydigitalkey
 GRPSADMIN="adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio,bluetooth"
@@ -54,6 +54,8 @@ else
 fi
 
 
+# Google nameserver (required for upgrades, due to access point / captive portal)
+sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 
 
 # Nettoyage de edkuser et flaskinterface si option -c
@@ -113,7 +115,7 @@ fi
 
 # Modifier les droits sudoer
 echo "edkstf ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/020_edkstf-nopasswd
-echo "edkuser ALL=(ALL) NOPASSWD:  /usr/bin/sed,/sbin/reboot,/sbin/shutdown,/usr/sbin/service,/sbin/ifconfig,/usr/sbin/rfkill,/usr/bin/anydesk" > /etc/sudoers.d/020_edkuser-nopasswd
+echo "edkuser ALL=(ALL) NOPASSWD:  /home/pi/network-setup/bin/*,/usr/bin/supervisorctl,/bin/cp,/bin/sed,/bin/systemctl,/sbin/reboot,/sbin/shutdown,/usr/sbin/service,/sbin/ifconfig,/usr/sbin/rfkill,/usr/bin/anydesk" > /etc/sudoers.d/020_edkuser-nopasswd
 
 # Changer l'utilisateur "par defaut"
 /bin/sed -i "s/autologin-user=pi/autologin-user=edkuser/g" /etc/lightdm/lightdm.conf
@@ -165,6 +167,9 @@ fi
 
 rm -r /opt/flaskinterface
 git clone -b "$VERSION" "$GITURL"/flaskinterface.git /opt/flaskinterface
+chown -R edkuser:pi flaskinterface
+chmod -R g+w flaskinterface
+sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 /bin/sh /opt/flaskinterface/run.sh
 
  
@@ -222,3 +227,4 @@ cd "$CURENTDIR"/..
 sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 
 # Reboot
+sudo reboot

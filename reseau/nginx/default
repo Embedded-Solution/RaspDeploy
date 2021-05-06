@@ -20,6 +20,21 @@ server {
         expires 1d;
     }
 
+    location /preview {
+        alias /home/edkuser/.kioskfiles/ukplugs;
+        gzip  off;
+        add_header Cache-Control "no-store";
+        add_header Access-Control-Allow-Origin *;
+    }
+
+    location /kioskview {
+        alias /home/edkuser/.kioskdata;
+        gzip  off;
+        expires 1d;
+        add_header Cache-Control "private, no-transform";
+        add_header Access-Control-Allow-Origin *;
+    }
+
     location /socket.io {
         include proxy_params;
         proxy_http_version 1.1;
