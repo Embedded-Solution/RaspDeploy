@@ -27,8 +27,8 @@ server {
         add_header Access-Control-Allow-Origin *;
     }
 
-    location /immoview {
-        alias /home/edkuser/.kioskdata/immoview;
+    location /kioskview {
+        alias /home/edkuser/.kioskdata;
         gzip  off;
         expires 1d;
         add_header Cache-Control "private, no-transform";
