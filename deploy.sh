@@ -55,7 +55,7 @@ fi
 
 
 # Google nameserver (required for upgrades, due to access point / captive portal)
-sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
+#sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 
 
 # Nettoyage de edkuser et flaskinterface si option -c
