@@ -200,6 +200,8 @@ apt autoclean
 service nginx restart
 /usr/bin/supervisorctl reload
 
+sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
+
 ####################### Network #######################
 # Install Access Point Manager
 echo "========================================="
