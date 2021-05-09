@@ -144,6 +144,7 @@ cp ./chromium/libwidevinecdm.so /usr/lib/chromium-browser
 rsync -a ./chromium/policies/ /etc/chromium-browser/policies/managed/
 
 # Installation du plugin 'totemhome'
+sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 rm -r /home/"$KUSER"/.config/chromium/Extensionsio/totemhome
 git clone -b $VERSION "$GITURL"/totemhome.git /home/"$KUSER"/.config/chromium/Extensionsio/totemhome
 
@@ -166,6 +167,7 @@ fi
 ##################### Flaskinterface #######################
 
 rm -r /opt/flaskinterface
+sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 git clone -b "$VERSION" "$GITURL"/flaskinterface.git /opt/flaskinterface
 chown -R edkuser:pi flaskinterface
 chmod -R g+w flaskinterface
