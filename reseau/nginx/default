@@ -30,9 +30,12 @@ server {
     location /kioskview {
         alias /home/edkuser/.kioskdata;
         gzip  off;
+        # cache 1 day
         expires 1d;
         add_header Cache-Control "private, no-transform";
         add_header Access-Control-Allow-Origin *;
+        # no cache for debugging
+        # add_header Cache-Control "no-store";
     }
 
     location /socket.io {
