@@ -29,6 +29,7 @@ server {
 
     location /kioskview {
         alias /home/edkuser/.kioskdata;
+        error_page 404 immoplus/html/assets/404.html;
         gzip  off;
         # cache 1 day
         expires 1d;
