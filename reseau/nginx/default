@@ -29,10 +29,11 @@ server {
 
     location /kioskview {
         alias /home/edkuser/.kioskdata;
+        error_page 404 /kioskview/immoplus/html/assets/404.html;
         gzip  off;
         # cache 1 day
         expires 1d;
-        add_header Cache-Control "private, no-transform";
+        #add_header Cache-Control "private, no-transform";
         add_header Access-Control-Allow-Origin *;
         # no cache for debugging
         # add_header Cache-Control "no-store";
