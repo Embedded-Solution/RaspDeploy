@@ -38,6 +38,12 @@ git clone -b testing https://git.ioconstellation.com/iostaff/RaspDeploy.git
 cd RaspDeploy && sudo ./deploy.sh -v testing
 ```
 
+### Git user credentials
+Add *git* username:password in *git* URL
+```bash
+git clone https://username:password@git.ioconstellation.com/iostaff/RaspDeploy.git
+```
+
 ### Options
 
 #### Delete: -r
