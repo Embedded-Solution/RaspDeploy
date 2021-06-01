@@ -63,7 +63,7 @@ Adding -c to the sh deploy.sh command removes the edkuser and its folder as well
 
 ## Rotate the Raspberry Pi Display (Pi 4)
 
-Proceed as *pi* user in desktop menu **Preferences > Screen Configration** or create `/usr/share/dispsetup.sh` as executable:
+Proceed as *pi* user in desktop menu **Preferences > Screen Configration** or edit `/usr/share/dispsetup.sh`:
 
 ```bash
 #!/bin/sh
