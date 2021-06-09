@@ -27,6 +27,13 @@ server {
         add_header Access-Control-Allow-Origin *;
     }
 
+    location /preview-master {
+        alias /home/edkuser/.masterfiles/ukplugs;
+        gzip  off;
+        add_header Cache-Control "no-store";
+        add_header Access-Control-Allow-Origin *;
+    }
+
     location /kioskview {
         alias /home/edkuser/.kioskdata;
         error_page 404 /kioskview/immoplus/html/assets/404.html;
