@@ -24,7 +24,7 @@ Installation requires [Raspbian Buster with desktop](https://www.raspberrypi.org
 
 ```bash
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get upgrade -y
 git clone https://git.ioconstellation.com/iostaff/RaspDeploy.git
 cd RaspDeploy && sudo ./deploy.sh
 ```
@@ -33,7 +33,7 @@ cd RaspDeploy && sudo ./deploy.sh
 
 ```bash
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get upgrade -y
 git clone -b testing https://git.ioconstellation.com/iostaff/RaspDeploy.git
 cd RaspDeploy && sudo ./deploy.sh -v testing
 ```
