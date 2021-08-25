@@ -77,6 +77,9 @@ fi
 # Installation des paquest utiles
 apt install  accountsservice unclutter matchbox feh ecryptfs-utils libreoffice libreoffice-l10n-fr supervisor -y
 
+# Ajouté le 25/08/2021 pour éliminer erreurs dans user.log en udisksd[410]
+apt install libblockdev-crypto2 libblockdev-mdraid2
+
 # Suppression des paquets inutiles
 apt remove geany geany-common -y
  
